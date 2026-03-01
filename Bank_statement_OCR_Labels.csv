@@ -1,0 +1,21 @@
+SL No.,Name
+1,account_holder
+2,account_number
+3,account_type
+4,bank_name
+5,bsb
+6,client_name
+7,opening_balance
+8,page_count
+9,statement_date_range
+10,statement_period_end
+11,statement_period_start
+12,total_credits
+13,total_debits
+14,transactions_table
+,credit_amount
+,debit_amount
+,description
+,effective_date
+,posted_date
+,running_balance

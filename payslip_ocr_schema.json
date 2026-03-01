@@ -1,0 +1,102 @@
+[
+  {
+    "name": "abn",
+    "data_type": "Plain text",
+    "method": "Extract",
+    "occurrence": "Once"
+  },
+  {
+    "name": "annual_salary",
+    "data_type": "Plain text",
+    "method": "Extract",
+    "occurrence": "Optional multiple"
+  },
+  {
+    "name": "base_income",
+    "data_type": "Plain text",
+    "method": "Extract",
+    "occurrence": "Optional multiple"
+  },
+  {
+    "name": "deduction_item",
+    "data_type": "Plain text",
+    "method": "Extract",
+    "occurrence": "Optional multiple",
+    "subfields": [
+      {"name": "deduction_type", "data_type": "Plain text"},
+      {"name": "deduction_this_period", "data_type": "Money"},
+      {"name": "deduction_ytd", "data_type": "Money"}
+    ]
+  },
+  {
+    "name": "earning_item",
+    "data_type": "Plain text",
+    "method": "Extract",
+    "occurrence": "Optional multiple",
+    "subfields": [
+      {"name": "earning_hours", "data_type": "Plain text"},
+      {"name": "earning_rate", "data_type": "Plain text"},
+      {"name": "earning_this_period", "data_type": "Money"},
+      {"name": "earning_ytd", "data_type": "Money"}
+    ]
+  },
+  {
+    "name": "employer_name",
+    "data_type": "Plain text",
+    "method": "Extract",
+    "occurrence": "Once"
+  },
+  {
+    "name": "gross_income",
+    "data_type": "Money",
+    "method": "Extract",
+    "occurrence": "Optional once"
+  },
+  {
+    "name": "net_income",
+    "data_type": "Money",
+    "method": "Extract",
+    "occurrence": "Optional once"
+  },
+  {
+    "name": "pay_period_start_date",
+    "data_type": "Date",
+    "method": "Extract",
+    "occurrence": "Once"
+  },
+  {
+    "name": "pay_period_end_date",
+    "data_type": "Date",
+    "method": "Extract",
+    "occurrence": "Once"
+  },
+  {
+    "name": "pay_date",
+    "data_type": "Date",
+    "method": "Extract",
+    "occurrence": "Once"
+  },
+  {
+    "name": "tax_item",
+    "data_type": "Plain text",
+    "method": "Extract",
+    "occurrence": "Optional multiple",
+    "subfields": [
+      {"name": "tax_type", "data_type": "Plain text"},
+      {"name": "tax_this_period", "data_type": "Money"},
+      {"name": "tax_ytd", "data_type": "Money"}
+    ]
+  },
+  {
+    "name": "total_deduction",
+    "data_type": "Money",
+    "method": "Extract",
+    "occurrence": "Optional once"
+  },
+  {
+    "name": "total_earning",
+    "data_type": "Money",
+    "method": "Extract",
+    "occurrence": "Optional once"
+  }
+]

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{% block title %}Mortgage Processing{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'hcl-primary': '#0F5FDC',
+                        'hcl-dark-blue': '#001C3D',
+                        'hcl-light-blue': '#E5EFFF',
+                        'hcl-gray': '#54565A',
+                        'hcl-light-gray': '#E8E8E8'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .btn-hcl-primary {
+            background: linear-gradient(135deg, #0F5FDC 0%, #084BB3 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-hcl-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(15, 95, 220, 0.3);
+        }
+
+        .btn-hcl-secondary {
+            background: white;
+            color: #0F5FDC;
+            border: 2px solid #0F5FDC;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-hcl-secondary:hover {
+            background: #E5EFFF;
+        }
+
+        .progress-step {
+            position: relative;
+            flex: 1;
+        }
+
+        .progress-step.active .step-circle {
+            background: #0F5FDC;
+            border-color: #0F5FDC;
+            color: white;
+        }
+
+        .progress-step.completed .step-circle {
+            background: #4CAF50;
+            border-color: #4CAF50;
+            color: white;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid #E8E8E8;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto;
+        }
+
+        .card-hcl {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid #E8E8E8;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body class="bg-gray-50">
+    <nav class="bg-white shadow-md border-b-4 border-hcl-primary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-hcl-primary">ABC</span>
+                    <span class="ml-2 text-xl font-semibold text-hcl-dark-blue">Mortgage Processing</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    {% if session.get('username') %}
+                    <span class="text-sm text-gray-600">
+                        <i class="fas fa-user mr-2"></i>{{ session.get('username') }}
+                        <span class="ml-2 px-2 py-1 bg-hcl-primary text-white text-xs rounded">{{ session.get('role',
+                            '').upper() }}</span>
+                    </span>
+                    <a href="/logout" class="text-hcl-primary hover:text-blue-700 font-medium">
+                        <i class="fas fa-sign-out-alt mr-1"></i>Logout
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        {% for message in messages %}
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4 rounded">
+            <p class="text-blue-700">{{ message }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-hcl-dark-blue text-white mt-16 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>&copy; 2025 ABC Bank Mortgage Processing System. All rights reserved.</p>
+            <p class="text-sm mt-2 text-gray-300">Powered by Google Cloud Document AI & Gemini</p>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

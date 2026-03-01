@@ -1,0 +1,513 @@
+{
+  "_comment": "PAYG Policy Configuration - Edit this file to customize validation rules",
+  "_instructions": "Add terms to 'pass_if_found' arrays to help AI identify relevant data. The AI will mark a policy as PASS if ANY of these terms are found in the specified field_locations with a non-zero amount.",
+  
+  "policy_matching_rules": {
+    "Base income (100%)": {
+      "description": "Base salary component - the primary regular income",
+      "pass_if_found": [
+        "base income",
+        "base salary",
+        "base",
+        "base hourly",
+        "ordinary hours",
+        "ordinary pay",
+        "ordinary time",
+        "ordinary",
+        "regular pay",
+        "regular hours",
+        "normal salary",
+        "normal hours",
+        "basic pay",
+        "salary",
+        "annual_salary",
+        "monthly salary",
+        "monthly base salary",
+        "fortnightly salary",
+        "weekly salary",
+        "normal",
+        "standard hours",
+        "standard pay"
+      ],
+      "field_locations": [
+        "base_income",
+        "earning_items[].type",
+        "earning_items[].description",
+        "gross_earnings",
+        "annual_salary",
+        "monthly_salary",
+        "salary"
+      ],
+      "minimum_amount": 0,
+      "servicing_percentage": 100,
+      "validation_notes": "Look for base/ordinary/regular salary in earnings. If found with amount > 0, mark as PASS."
+    },
+    
+    "Casual income (100%)": {
+      "description": "Casual employment income",
+      "pass_if_found": [
+        "casual",
+        "casual hours",
+        "casual pay",
+        "casual loading",
+        "casual rate",
+        "casual wages"
+      ],
+      "field_locations": [
+        "employment_type",
+        "employee_classification",
+        "earning_items[].type"
+      ],
+      "minimum_amount": 0,
+      "servicing_percentage": 100,
+      "validation_notes": "Only applicable if employment_type is 'casual'. Look for casual hours or casual loading."
+    },
+    
+    "Overtime / shift allowance (80%)": {
+      "description": "Overtime and shift allowance payments",
+      "pass_if_found": [
+        "overtime",
+        "over time",
+        "ot",
+        "o/t",
+        "overtime hours",
+        "overtime pay",
+        "shift",
+        "shift allowance",
+        "shift loading",
+        "shift penalty",
+        "penalty rates",
+        "penalty rate",
+        "extra hours",
+        "additional hours",
+        "time and a half",
+        "double time",
+        "night shift",
+        "weekend shift"
+      ],
+      "field_locations": [
+        "overtime",
+        "earning_items[].type",
+        "earning_items[].description",
+        "deduction_items[].type",
+        "allowances"
+      ],
+      "minimum_amount": 0,
+      "servicing_percentage": 80,
+      "validation_notes": "Look for overtime/OT/shift in earnings. If found with amount > 0, mark as PASS. If not found, mark as FAIL."
+    },
+    
+    "Bonus/Commission (80%)": {
+      "description": "Bonus and commission payments",
+      "pass_if_found": [
+        "bonus",
+        "bonuses",
+        "commission",
+        "commissions",
+        "incentive",
+        "incentives",
+        "performance bonus",
+        "performance pay",
+        "annual bonus",
+        "quarterly bonus",
+        "monthly bonus",
+        "sales commission",
+        "sales bonus",
+        "productivity bonus",
+        "retention bonus",
+        "signing bonus"
+      ],
+      "field_locations": [
+        "earning_items[].type",
+        "earning_items[].description",
+        "deduction_items[].type",
+        "bonus",
+        "commission",
+        "incentive"
+      ],
+      "minimum_amount": 0,
+      "servicing_percentage": 80,
+      "validation_notes": "Look for bonus/commission in earnings. If found with amount > 0, mark as PASS. If not found, mark as FAIL."
+    },
+    
+    "Allowances (80%)": {
+      "description": "Various employment allowances including Social Club Fund",
+      "pass_if_found": [
+        "allowance",
+        "allowances",
+        "travel allowance",
+        "travel",
+        "meal allowance",
+        "meal",
+        "uniform allowance",
+        "uniform",
+        "tool allowance",
+        "tools",
+        "car allowance",
+        "vehicle allowance",
+        "phone allowance",
+        "mobile allowance",
+        "expense allowance",
+        "expenses",
+        "laundry allowance",
+        "accommodation allowance",
+        "site allowance",
+        "first aid allowance",
+        "higher duties",
+        "location allowance",
+        "social club fund",
+        "social club",
+        "club fund"
+      ],
+      "field_locations": [
+        "allowances",
+        "earning_items[].type",
+        "earning_items[].description",
+        "deduction_items[].type",
+        "deduction_items[].description"
+      ],
+      "minimum_amount": 0,
+      "servicing_percentage": 80,
+      "validation_notes": "Look for any allowance in earnings OR deductions. IMPORTANT: If 'Social Club Fund' or similar is found in deduction_items, classify it as Allowances. If found with amount > 0, mark as PASS."
+    },
+    
+    "Superannuation Contributions (Employer) (100%)": {
+      "description": "Employer-paid superannuation contributions (excluding salary sacrifice)",
+      "pass_if_found": [
+        "superannuation",
+        "super",
+        "super guarantee",
+        "superannuation guarantee",
+        "sg",
+        "sgc",
+        "employer super",
+        "super contribution",
+        "super fund",
+        "super payment",
+        "superannuation fund",
+        "superannuation contribution"
+      ],
+      "field_locations": [
+        "superannuation_items[].type",
+        "superannuation_items[].description",
+        "superannuation_items[].this_period",
+        "superannuation",
+        "superannuation_this_period"
+      ],
+      "minimum_amount": 0,
+      "servicing_percentage": 100,
+      "validation_notes": "Show ALL superannuation items that do NOT contain sacrifice/packaging keywords. These represent employer super contributions considered at 100%."
+    },
+    
+    "Salary Sacrifice and Salary Packaging Arrangements (100%)": {
+      "description": "Salary sacrifice and packaging arrangements (items explicitly labeled as sacrifice/packaging)",
+      "pass_if_found": [
+        "salary sacrifice",
+        "salary_sacrifice",
+        "salary packaging",
+        "salary_packaging",
+        "sal sac",
+        "sacrifice",
+        "sacrificed",
+        "novated lease",
+        "novated leasing",
+        "fringe benefit",
+        "meal entertainment",
+        "packaging",
+        "pre-tax sacrifice"
+      ],
+      "field_locations": [
+        "superannuation",
+        "superannuation_this_period",
+        "super",
+        "deduction_items[].type",
+        "deduction_items[].description",
+        "superannuation_items[].type",
+        "salary_sacrifice",
+        "salary_packaging"
+      ],
+      "minimum_amount": 0,
+      "servicing_percentage": 100,
+      "validation_notes": "Look for superannuation/super in deductions or summary fields. If found with amount > 0, mark as PASS."
+    },
+    
+    "Fully Maintained Car Benefits (100%)": {
+      "description": "Company car benefits",
+      "pass_if_found": [
+        "car",
+        "car benefit",
+        "car_allowance",
+        "vehicle",
+        "vehicle_benefit",
+        "company_car",
+        "motor_vehicle"
+      ],
+      "field_locations": [
+        "earning_items[].type",
+        "car_benefit"
+      ],
+      "minimum_amount": 0,
+      "servicing_percentage": 100,
+      "validation_notes": "Look for car/vehicle benefit in earnings. If found, check if amount exceeds $3,500 annually."
+    },
+    
+    "Second Job (100%)": {
+      "description": "Secondary employment income",
+      "pass_if_found": [
+        "second job",
+        "secondary employment",
+        "additional employer"
+      ],
+      "field_locations": [
+        "employer_name",
+        "multiple_employers"
+      ],
+      "minimum_amount": 0,
+      "servicing_percentage": 100,
+      "validation_notes": "Look for indicators of multiple employers. Usually NOT APPLICABLE unless explicitly mentioned."
+    },
+    
+    "Parental Leave (Employer or Government)": {
+      "description": "Parental leave payments",
+      "pass_if_found": [
+        "parental",
+        "parental leave",
+        "maternity",
+        "maternity leave",
+        "paternity",
+        "paternity leave",
+        "paid_parental leave"
+      ],
+      "field_locations": [
+        "earning_items[].type",
+        "deduction_items[].type"
+      ],
+      "minimum_amount": 0,
+      "servicing_percentage": 0,
+      "validation_notes": "Look for parental/maternity/paternity leave in earnings. Usually NOT APPLICABLE."
+    },
+    
+    "PAYG Income (tenure)": {
+      "description": "Employment type and tenure requirements",
+      "pass_if_found": [
+        "full time",
+        "full-time",
+        "fulltime",
+        "part time",
+        "part-time",
+        "parttime",
+        "contract",
+        "casual",
+        "permanent",
+        "probation"
+      ],
+      "field_locations": [
+        "employment_type",
+        "employee_classification"
+      ],
+      "minimum_amount": 0,
+      "servicing_percentage": 100,
+      "validation_notes": "Check employment_type field. Verify tenure via YTD figures or multiple payslips."
+    },
+    
+    "PAYG Income Verification": {
+      "description": "Document verification requirements",
+      "pass_if_found": [
+        "ytd",
+        "year to date",
+        "gross earnings ytd",
+        "net pay ytd"
+      ],
+      "field_locations": [
+        "gross_earnings_ytd",
+        "net_pay_ytd",
+        "payslip_count"
+      ],
+      "minimum_amount": 0,
+      "servicing_percentage": 100,
+      "validation_notes": "Check if 2+ payslips provided OR 1 payslip with YTD figures. Mark PASS if requirements met."
+    },
+    
+    "Document requirements": {
+      "description": "Document completeness and freshness",
+      "pass_if_found": [
+        "employee name",
+        "employer name",
+        "abn",
+        "pay_date"
+      ],
+      "field_locations": [
+        "employee_name",
+        "employer_name",
+        "abn",
+        "pay_date"
+      ],
+      "minimum_amount": 0,
+      "servicing_percentage": 100,
+      "validation_notes": "Check if all required fields present: employee name, employer name, ABN, pay date within 60 days."
+    },
+    
+    "Pre-Tax Deduction": {
+      "description": "Pre-tax deductions from payslip",
+      "pass_if_found": [
+        "pre tax",
+        "pre-tax",
+        "pretax",
+        "before tax",
+        "salary sacrifice",
+        "salary packaging",
+        "novated lease",
+        "fringe benefit",
+        "social club fund",
+        "social club",
+        "union fees",
+        "union",
+        "health insurance",
+        "private health"
+      ],
+      "field_locations": [
+        "deduction_items[].type",
+        "deduction_items[].description"
+      ],
+      "minimum_amount": 0,
+      "servicing_percentage": 100,
+      "validation_notes": "Look for pre-tax deductions in deduction_items. Extract all and ONLY pre-tax deduction amounts."
+    },
+    
+    "Post-Tax Deduction": {
+      "description": "Post-tax deductions from payslip",
+      "pass_if_found": [
+        "post tax",
+        "post-tax",
+        "after tax",
+        "after-tax",
+        "net deduction",
+        "garnish",
+        "garnishment",
+        "union fees",
+        "union",
+        "health fund",
+        "private health",
+        "loan repayment",
+        "social club fund",
+        "social club",
+        "club fund",
+        "charity",
+        "donation"
+      ],
+      "field_locations": [
+        "deduction_items[].type",
+        "deduction_items[].description"
+      ],
+      "minimum_amount": 0,
+      "servicing_percentage": 100,
+      "validation_notes": "Look for deductions that occur after tax. Use deduction_items descriptions to identify 'post-tax', 'after tax', or specific items like union fees, social club, private health."
+    },
+    
+    "Tax": {
+      "description": "Tax withheld from payslip",
+      "pass_if_found": [
+        "tax",
+        "payg",
+        "withholding",
+        "income tax",
+        "tax withheld",
+        "payg tax",
+        "pay as you go"
+      ],
+      "field_locations": [
+        "tax_items[].type",
+        "tax_items[].description",
+        "tax_withheld",
+        "tax_this_period"
+      ],
+      "minimum_amount": 0,
+      "servicing_percentage": 0,
+      "validation_notes": "Look for tax items in tax_items array or tax_withheld field. Extract total tax amount."
+    },
+    
+    "Net Pay and Gross Pay": {
+      "description": "Net pay and gross pay amounts",
+      "pass_if_found": [
+        "net pay",
+        "gross pay",
+        "net_pay",
+        "gross_pay",
+        "gross earnings",
+        "gross_earnings",
+        "take home",
+        "net amount"
+      ],
+      "field_locations": [
+        "net_pay",
+        "gross_pay",
+        "gross_earnings",
+        "net_pay_ytd",
+        "gross_earnings_ytd"
+      ],
+      "minimum_amount": 0,
+      "servicing_percentage": 0,
+      "validation_notes": "Extract net_pay and gross_pay/gross_earnings from parent labels. These are summary amounts."
+    },
+    
+    "Non-income items": {
+      "description": "Non-income amounts such as STSL/HELP repayments and annual leave payouts",
+      "pass_if_found": [
+        "stsl",
+        "study and training support",
+        "hecs",
+        "help",
+        "vet fee-help",
+        "vet fee help",
+        "student loan",
+        "education loan",
+        "study loan",
+        "training loan",
+        "hecs-help",
+        "fees-help",
+        "sa-help",
+        "student contribution",
+        "higher education contribution",
+        "annual leave",
+        "annual leave loading",
+        "leave loading",
+        "holiday pay",
+        "annual leave payout"
+      ],
+      "field_locations": [
+        "tax_items[].type",
+        "tax_items[].description",
+        "deduction_items[].type",
+        "deduction_items[].description",
+        "earning_items[].type",
+        "earning_items[].description"
+      ],
+      "minimum_amount": 0,
+      "servicing_percentage": 0,
+      "validation_notes": "Extract STSL/HELP-style repayments and any annual leave or leave loading items. These are non-income items for servicing context."
+    }
+  },
+  
+  "general_instructions": {
+    "pass_criteria": "If ANY of the 'pass_if_found' terms are found in the specified field_locations with a non-zero amount, mark as PASS",
+    "fail_criteria": "If NONE of the 'pass_if_found' terms are found, mark as FAIL",
+    "warning_criteria": "If term is found but amount is unclear or needs verification, mark as WARNING",
+    "not_applicable_criteria": "If the policy doesn't apply to this applicant (e.g., no parental leave, no second job), mark as NOT_APPLICABLE",
+    
+    "matching_rules": [
+      "Match terms case-insensitively",
+      "Match partial terms (e.g., 'super' matches 'superannuation')",
+      "Check both field names and values",
+      "Look in earning_items array for detailed breakdown",
+      "Look in deduction_items array for deductions",
+      "Consider YTD (Year-to-Date) figures as evidence"
+    ],
+    
+    "output_format": {
+      "pass": "State what was found and the amount in 1-2 lines",
+      "fail": "State what's missing in 1 line, provide details in DETAILS section",
+      "warning": "State what was found but uncertain in 1-2 lines, provide verification needs in DETAILS section",
+      "not_applicable": "State why policy doesn't apply in 1 line"
+    }
+  }
+}

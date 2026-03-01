@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Mortgage Processing{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-hcl-dark-blue to-hcl-light-blue -mt-8">
+    <div class="max-w-md w-full">
+        <div class="card-hcl">
+            <div class="mb-8">
+                <i class="fas fa-home text-5xl text-hcl-primary mb-4"></i>
+                <h1 class="text-4xl font-bold text-hcl-primary mb-2">ABC Bank</h1>
+                <p class="text-gray-600">Mortgage Processing Portal</p>
+                <p class="text-gray-600 mt-2">Secure Document Verification System</p>
+            </div>
+
+            <form method="POST" action="/login" class="space-y-6">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-user mr-2 text-hcl-primary"></i>Username
+                    </label>
+                    <input type="text" name="username" required
+                        class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-hcl-primary focus:outline-none transition"
+                        placeholder="Enter username">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-lock mr-2 text-hcl-primary"></i>Password
+                    </label>
+                    <input type="password" name="password" required
+                        class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-hcl-primary focus:outline-none transition"
+                        placeholder="Enter password">
+                </div>
+
+                <button type="submit" class="w-full btn-hcl-primary text-lg">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Login
+                </button>
+            </form>
+
+            <!-- <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                <p class="text-sm font-semibold text-gray-700 mb-2">
+                    <i class="fas fa-info-circle mr-1 text-blue-500"></i>Demo Credentials:
+                </p>
+                <div class="text-xs text-gray-700 space-y-1">
+                    <p><strong>Broker:</strong> Username: <code class="bg-white px-2 py-1 rounded">broker1</code> Password: <code class="bg-white px-2 py-1 rounded">broker123</code></p>
+                    <p><strong>Assessor:</strong> Username: <code class="bg-white px-2 py-1 rounded">assessor1</code> Password: <code class="bg-white px-2 py-1 rounded">assessor123</code></p>
+                    <p><strong>Quick Demo:</strong> Username: <code class="bg-white px-2 py-1 rounded">demo</code> Password: <code class="bg-white px-2 py-1 rounded">demo</code></p>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+{% endblock %}

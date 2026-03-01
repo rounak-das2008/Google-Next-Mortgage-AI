@@ -1,0 +1,112 @@
+S.No,Policy Name,,
+1,"PAYG Income
+ (tenure)","Full time, part time or contract employment  [It should be present in the payslip]
+ • Minimum 3 months (6 months with LMI) with current employer [LMI (Lenders Mortgage Insurance) information will be present in application form; so just check if salary is credited for 3 months from the same employer in bank statement, and in the summary you can say that ""For Applicants with LMI, Further verification is needed as the validation has dependencies on application form ""] ; or 
+ • Minimum 2 years in a similar role/industry utilising a similar skill set [This information will be present in application form;and in the summary you can say that "" Further verification is needed as the validation has dependencies on application form "" ]
+ 
+ Casual Employment [For Casual Employee, if it not given explicitly, we run through the pay slip to pick up header casual hours. Thus we identify that it is Casual Employee. But if it is not present, we will check the Lend Fast application]
+ • Minimum 6 months in current employment [check if salary is credited for 6 months from the same employer in bank statement]; or 
+ • Minimum 2 years in a similar role/industry utilising a similar skill set. [This information will be present in application form;and in the summary you can say that "" Further verification is needed as the validation has dependencies on application form "" ]
+ 
+ Probation [If it is explicitly mentioned]
+ Applicants in a Probation Period are acceptable provided stability of employment history, similar role/industry, higher education and/or promotion. [If we have identified the employement type as Probation, we cannot do additional checks; and in the summary you can say that "" Further verification is needed as the validation has dependencies on letter from the employer "" ]","1. Requestor seems to be full time/casual employee of ABC company
+ 2. Requestor has worked currently for 3/6 months with ABC company
+ 3. The user is a probationary user with not much clarity on employment history/similar role"
+,"PAYG Income Type 
+ (% used in servicing)","[For the below checks:
+ Step 1: Trying to extract the figure against the header
+ Step 2: Validate against policy.
+ Step 3: If they are dependant on Lend fast or any other document, we can say that further verification needed as the validation has dependencies on other documents.]",
+2,Base income (100%),[Extract the base income component from the salary slip],
+3,"Casual income 
+ (100%)",[Extract the Casual income component from the salary slip],
+4,Second Job (100%),"The tenure with the second employer must be >= 6 months.  [check if salary is credited for greater than or 6 months from the same employer in bank statement; There is a pdf explicitly given by michael on second job]
+ Total combined work hours capped at 60 hours per week. [Check Hours Paid/ week - compute the total combined work hours across primary & secondary is at 60 hours per week, if monthly hours are given, divide it by the number of working days, you can get hours worked per day. You mutiply that by 5, to get weekly hours worked. Similarly for fortnightly, you divide it by 10, then mutiply that by 5, to get weekly hours worked. ]",
+5,"Overtime / shift 
+ allowance (80%)","• Payslips with >6 months YTD [ the payslip contains the Overtime / shift allowance for more than 6 months YTD]
+ OR 
+ • Payslips < 6months YTD and any one of Tax return, Income Statement or Payment Summary. [if the payslip contains the Overtime / shift allowance for less than 6 months YTD; we cannot verify second condition and in the summary you can say that "" Further verification is needed as the validation has dependencies on documents such as Tax return, Income Statement or Payment Summary ""]",
+6,"Bonus/Commission 
+ (80%)","Regular component of a borrower’s salary.  [I am not sure if we can verify this policy as the duration spans over year but atleast we can extract the figure. If there are payslips for duration of 12months then we can consider this]
+ • Regular monthly/quarterly basis, income evidence >= 12 months. [Check if the bonus/commission is given at a regular monthly/quarterly basis, with income evidence greater than or equal 12 months in the payslips]
+ • Annual/irregular payments, income evidence over 2 years. [if the bonus/commission is given on an Annual/irregular payments basis, then need to check income evidence over 2 years in the payslips]
+ 
+ Bonus / Commission limited to no more than double an applicant’s base income. [Check if Bonus/Commission is no more than twice an applicant’s base income.]
+ 
+ Where any significant increase from one year to the next, an acceptable reason of the cause(s) must be obtained. [When there is significant increase from one year to the next, we wont be able to verify, in the summary you can say that "" Further verification is needed as the validation has dependencies on letter from the employer "" ]",
+7,"Fully Maintained Car 
+ Benefits (100%)","Where the applicant’s employer provides a fully maintained car (not part of packaged income) a maximum of $3,500 per annum (post tax) can be included in loan serviceability calculations. Record under Tax Free Income in Lendfast. [It should be present in the payslip, Try to exact the figure against the header, and if it is greater than $3,500 per annum, then we can say in summary that a maximum of $3,500 per annum (post tax) can be included in loan serviceability]
+ 
+ Any fully maintained car benefit must be evidenced by an Employment Contract or letter from employer. [If the header not present in the payslip, we can say in the summary that "" Further verification is needed as the validation has dependencies on letter from the employer "" ]",
+8,Allowances (80%),"Allowances are acceptable provided all associated costs with an expense from employment are included (e.g. tool, uniform, entertainment, in some cases rent). Example: Military / Service Allowance is considered acceptable as this allowance compensates a member of the armed forces for the unique requirements that service life may impose on an individual and his or her 
+ family. [Check for the header allowances are present in Payslip, all the associated expense should also be present against it. McDonalds will give out uniform that is one allowance, If you are in construction, you may be getting a uniform allowance. These items should be generally in the payslip. Lets say a bank employee, if there is uniform allowance, that doesnt make any sense because bank employee does not wear uniform for work. So we can try with the AI, that based on the allowance and the industry or role captured as part of other requirements are in sync. ]
+ 
+ Allowances must not exceed 25% of the applicant’s base salary. [Check if allowance is no more than 25 % of an applicant’s base income.]",
+9,"Salary Sacrifice and 
+ Salary Packaging 
+ Arrangements 
+ (100%)","Salary Sacrifice and Salary Packaging arrangements can be used as income in servicing. All income must be clearly evidenced (e.g. Voluntary Superannuation on Payslip) [So as far as Salary Sacrifice is considered, there wont be items that are explicitly mentioned in the payslip, but if it present we need to extract it]
+  
+ All non-cash components of Salary Sacrifice are subject to confirmation via letter from the employer that the borrower has the option to convert these items to cash. Care must be taken to understand whether the arrangement is voluntary, either from documentation already held (e.g. Payslip, etc.) or a letter from the employer. [We wont be able to verify it. we can say in summary that"" Further verification is needed as the validation has dependencies on letter from the employer "" ]
+  
+ Where a PAYG employee voluntarily arranges amounts deducted for superannuation – confirmation is required that the borrower can cease the arrangement. Once confirmed then this amount can be added to the taxable portion of their income (as confirmed there will be no voluntary superannuation deduction going forward). [Related to lend fast, do not consider for policy verification]
+  
+ Tax free 
+ Some occupations (Clergy, Health, Charity workers) can arrange a portion of their income deducted before tax. These deducted payments can be allocated for mortgage payments, utility bills etc. Any tax free amounts must be entered into the Tax Free Income box of the servicing assessment (as tax free). [Related to lend fast, do not consider for policy verification]",
+10,"Parental Leave 
+ (Employer or 
+ Government)","Return to work income is acceptable in servicing where returning to work with the same employer following a leave period up to 2 years. [So as far as Salary Sacrifice is considered, there wont be items that are explicitly mentioned in the payslip, but if it present we need to extract it]
+ 
+ Supported by all the following: 
+ • A letter from employer <60 days old including terms of the parental leave 
+ o return to work date, salary upon return, future employment terms (full to part time) 
+ • Verification of income by letter from employer (or see PAYG income verification) [We wont be able to verify it. we can say in summary that"" Further verification is needed as the validation has dependencies on letter from the employer "" ]
+  
+ 
+ • Any childcare or living expenses must be included in Customer Declared Living Expenses  [Related to lend fast, do not consider for policy verification]
+ • A dependant must be included in the application [Related to lend fast, do not consider for policy verification]
+ 
+ A servicing assessment is required to confirm that all commitments (including new repayment) can be met 
+ across the parental leave period. 
+  
+ Where parental leave payments are not sufficient to meet servicing for the full duration of the leave from 
+ regular salary income, then any servicing shortfall must be evidenced by either: 
+ • Savings 
+ • Home loan redraw (i.e. not part of this application) 
+ • Family Tax Benefit Part A & Part B (verified via letter from Services Australia dated no older than 60 
+ days at the date of submission). 
+ Post the parental leave period these above types of income are not eligible for servicing. 
+ For reporting purposes the decision code “PARENTAL_LEAVE_FUTURE_INCOME” must be entered into 
+ Lendfast for all parental leave approvals.  [We wont be able to verify it. we can say in summary that"" Further verification is needed as the validation has dependencies on other external documents"" ]",
+,PAYG Income Verification,[These are the document evidence requirements for the above components of payslip. ],
+11,"PAYG 
+ Income 
+ Verification","Where base income used in servicing 
+ • 2 payslips [Check if the borrower has furnished two payslips.]
+ OR 
+ • Recent payslip (preferably with YTD figures) and any one of either: 
+ last year’s tax return or assessment notice or ATO Income Statement or PAYG Payment Summary 
+ Bank statements can be requested at discretion as part of application assessment. [ We wont be able to do this verification, we can say in summary that"" One payslip is present & Further verification is needed as the validation has dependencies on last year’s tax return or assessment notice or ATO Income Statement or PAYG Payment Summary"" ]
+ 
+ When borrowers have recently commenced new employment and insufficient time has passed to allow for the issuance of 2 payslips, it is acceptable to rely on the first payslip and full employment contract [ We wont be able to do this verification, we can say in summary that"" One payslip is present & Further verification is needed as the validation has dependencies on employment contract from the employer"" ]
+ 
+ Depending on income type (Seasonal, inconsistent casual income) and any doubt to the strength of the 
+ application, the analyst has the discretion to request a longer period of income for assessment – Using 
+ Payslips with >6 months YTD or 
+ any one of Tax return, NOA, Income Statement, Payment Summary.[ This is related to Accessors discretion, so dont need to consider for verification]
+ 
+ Evidence of income must be from current employer. [Ensure the evidence of income is from current employer]",
+12,"Document
+ requirements
+ All dates are
+ based on the
+ date of
+ submission","[Please ensure the following requirements are met]
+ Payslip requirements 
+ • Include the borrower’s name
+ • Employer’s name and employer ABN
+ • No older than 60 days (plus an additional grace period Monthly+14 days, Fortnightly+7 days, Weekly+3 days)
+  
+ Bank Statement requirements 
+ • Salary credit description
+ • Include the name of the employer",

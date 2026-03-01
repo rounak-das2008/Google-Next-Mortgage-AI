@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+
+{% block title %}Processing Documents{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <h1 class="text-3xl font-bold text-hcl-dark-blue mb-2">
+        <i class="fas fa-cog fa-spin text-hcl-primary mr-3"></i>Processing Documents
+    </h1>
+    <p class="text-gray-600">Step 3 of 4: AI Analysis in Progress</p>
+</div>
+
+<div class="mb-6">
+    <div class="flex items-center justify-center">
+        <div class="progress-step completed">
+            <div class="step-circle"><i class="fas fa-check"></i></div>
+            <p class="text-xs mt-2 text-center font-medium">Applicant Info</p>
+        </div>
+        <div class="h-1 flex-1 bg-hcl-primary mx-2"></div>
+        <div class="progress-step completed">
+            <div class="step-circle"><i class="fas fa-check"></i></div>
+            <p class="text-xs mt-2 text-center font-medium">Upload Documents</p>
+        </div>
+        <div class="h-1 flex-1 bg-hcl-primary mx-2"></div>
+        <div class="progress-step active">
+            <div class="step-circle"><i class="fas fa-spinner fa-spin"></i></div>
+            <p class="text-xs mt-2 text-center font-medium">Processing</p>
+        </div>
+        <div class="h-1 flex-1 bg-gray-300 mx-2"></div>
+        <div class="progress-step">
+            <div class="step-circle">4</div>
+            <p class="text-xs mt-2 text-center">Submit</p>
+        </div>
+    </div>
+</div>
+
+<div class="card-hcl max-w-3xl mx-auto">
+    <div class="text-center mb-8">
+        <div class="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-robot text-5xl text-hcl-primary"></i>
+        </div>
+        <h2 class="text-2xl font-semibold text-hcl-dark-blue mb-2">AI Document Processing</h2>
+        <p class="text-gray-600">Please wait while we analyze your documents...</p>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="mb-6">
+        <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium text-hcl-dark-blue" id="progressLabel">Initializing...</span>
+            <span class="text-sm font-medium text-hcl-dark-blue" id="progressPercentage">0%</span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-2.5">
+            <div class="bg-hcl-primary h-2.5 rounded-full" id="progressBar" style="width: 0%"></div>
+        </div>
+    </div>
+
+    <div id="processingSteps" class="space-y-4 mb-6">
+        <div class="flex items-center p-4 bg-blue-50 rounded-lg" id="step1">
+            <i class="fas fa-spinner fa-spin text-2xl text-blue-600 mr-4"></i>
+            <div>
+                <p class="font-semibold text-gray-800">Classifying Documents</p>
+                <p class="text-sm text-gray-600" id="step1Detail">Using Gemini AI to identify document types...</p>
+            </div>
+        </div>
+
+        <div class="flex items-center p-4 bg-gray-100 rounded-lg opacity-50" id="step2">
+            <i class="fas fa-circle-notch text-2xl text-gray-400 mr-4"></i>
+            <div>
+                <p class="font-semibold text-gray-800">Extracting Data</p>
+                <p class="text-sm text-gray-600" id="step2Detail">GCP Document AI OCR extraction...</p>
+            </div>
+        </div>
+
+        <div class="flex items-center p-4 bg-gray-100 rounded-lg opacity-50" id="step3">
+            <i class="fas fa-circle-notch text-2xl text-gray-400 mr-4"></i>
+            <div>
+                <p class="font-semibold text-gray-800">Validating Against Policies</p>
+                <p class="text-sm text-gray-600" id="step3Detail">Checking PAYG verification rules...</p>
+            </div>
+        </div>
+
+        <div class="flex items-center p-4 bg-gray-100 rounded-lg opacity-50" id="step4">
+            <i class="fas fa-circle-notch text-2xl text-gray-400 mr-4"></i>
+            <div>
+                <p class="font-semibold text-gray-800">Generating Summary</p>
+                <p class="text-sm text-gray-600" id="step4Detail">AI-powered application summary...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="errorMessage" class="hidden p-4 bg-red-50 border-l-4 border-red-500 rounded mb-4">
+        <p class="text-red-800 font-semibold">Processing Error</p>
+        <p class="text-red-700 text-sm mt-1" id="errorText"></p>
+    </div>
+
+    <div id="successMessage" class="hidden">
+        <div class="text-center py-8">
+            <i class="fas fa-check-circle text-6xl text-green-500 mb-4"></i>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">Processing Complete!</h3>
+            <p class="text-gray-600 mb-6">Redirecting to review page...</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const applicationId = '{{ application_id }}';
+let processingInterval;
+
+async function startProcessing() {
+    try {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+        const response = await fetch(`/api/process/${applicationId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            }
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Start polling for status updates
+            processingInterval = setInterval(checkProcessingStatus, 1000);
+        } else {
+            showError(data.error || 'Failed to start processing');
+        }
+    } catch (error) {
+        showError('Network error: ' + error.message);
+    }
+}
+
+async function checkProcessingStatus() {
+    try {
+        const response = await fetch(`/api/process/${applicationId}/status`);
+        const data = await response.json();
+        
+        if (!response.ok) {
+            showError(data.error || 'Failed to get processing status');
+            clearInterval(processingInterval);
+            return;
+        }
+        
+        const status = data.processing_status;
+        
+        // Update progress bar
+        updateProgressBar(status.progress_percentage, status.current_stage);
+        
+        // Update step indicators based on current stage
+        updateStepsBasedOnStage(status.current_stage, status.processed_documents, status.total_documents);
+        
+        // Check if processing is complete or has error
+        if (status.status === 'completed') {
+            clearInterval(processingInterval);
+            document.getElementById('successMessage').classList.remove('hidden');
+            
+            setTimeout(() => {
+                window.location.href = `/broker/application/${applicationId}/review`;
+            }, 2000);
+        } else if (status.status === 'error') {
+            clearInterval(processingInterval);
+            showError(status.error || 'An error occurred during processing');
+        }
+    } catch (error) {
+        console.error('Error checking status:', error);
+    }
+}
+
+function updateProgressBar(percentage, stage) {
+    const progressBar = document.getElementById('progressBar');
+    const progressLabel = document.getElementById('progressLabel');
+    const progressPercentage = document.getElementById('progressPercentage');
+    
+    progressBar.style.width = `${percentage}%`;
+    progressPercentage.textContent = `${percentage}%`;
+    progressLabel.textContent = stage;
+}
+
+function updateStepsBasedOnStage(stage, processed, total) {
+    // Reset all steps to inactive
+    for (let i = 1; i <= 4; i++) {
+        const stepEl = document.getElementById(`step${i}`);
+        stepEl.classList.add('opacity-50', 'bg-gray-100');
+        stepEl.classList.remove('bg-blue-50', 'bg-green-50');
+        
+        const icon = stepEl.querySelector('i');
+        icon.className = 'fas fa-circle-notch text-2xl text-gray-400 mr-4';
+    }
+    
+    // Update document count in step details
+    if (processed !== undefined && total !== undefined) {
+        document.getElementById('step1Detail').textContent = `Processing ${processed} of ${total} documents`;
+    }
+    
+    // Determine which step is active based on the stage
+    if (stage.includes('Classifying')) {
+        updateStep(1, 'active');
+    } else if (stage.includes('Extracting')) {
+        updateStep(1, 'complete');
+        updateStep(2, 'active');
+        document.getElementById('step2Detail').textContent = stage;
+    } else if (stage.includes('Validating') || stage.includes('Running validation')) {
+        updateStep(1, 'complete');
+        updateStep(2, 'complete');
+        updateStep(3, 'active');
+    } else if (stage.includes('Generating') || stage.includes('AI summary')) {
+        updateStep(1, 'complete');
+        updateStep(2, 'complete');
+        updateStep(3, 'complete');
+        updateStep(4, 'active');
+    } else if (stage.includes('complete')) {
+        updateStep(1, 'complete');
+        updateStep(2, 'complete');
+        updateStep(3, 'complete');
+        updateStep(4, 'complete');
+    }
+}
+
+function updateStep(step, status) {
+    const stepEl = document.getElementById(`step${step}`);
+    const icon = stepEl.querySelector('i');
+    
+    if (status === 'active') {
+        stepEl.classList.remove('opacity-50', 'bg-gray-100');
+        stepEl.classList.add('bg-blue-50');
+        icon.className = 'fas fa-spinner fa-spin text-2xl text-blue-600 mr-4';
+    } else if (status === 'complete') {
+        stepEl.classList.remove('opacity-50', 'bg-gray-100', 'bg-blue-50');
+        stepEl.classList.add('bg-green-50');
+        icon.className = 'fas fa-check-circle text-2xl text-green-600 mr-4';
+    }
+}
+
+function showError(message) {
+    document.getElementById('errorMessage').classList.remove('hidden');
+    document.getElementById('errorText').textContent = message;
+    clearInterval(processingInterval);
+}
+
+// Start processing when page loads
+document.addEventListener('DOMContentLoaded', startProcessing);
+</script>
+{% endblock %}

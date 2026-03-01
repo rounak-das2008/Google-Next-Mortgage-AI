@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Broker Dashboard{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <h1 class="text-3xl font-bold text-hcl-dark-blue mb-2">
+        <i class="fas fa-briefcase text-hcl-primary mr-3"></i>Broker Dashboard
+    </h1>
+    <p class="text-gray-600">Manage your mortgage applications</p>
+</div>
+
+<div class="mb-6">
+    <a href="/broker/new-application" class="btn-hcl-primary inline-block">
+        <i class="fas fa-plus mr-2"></i>New Application
+    </a>
+</div>
+
+<div class="card-hcl">
+    <h2 class="text-xl font-semibold text-hcl-dark-blue mb-4">
+        <i class="fas fa-folder-open mr-2 text-hcl-primary"></i>My Applications
+    </h2>
+
+    {% if applications %}
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Application ID</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Applicant
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type /
+                        Role</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for app in applications %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900">
+                        {{ app.application_id[:8] }}...
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {{ app.applicant_name or 'N/A' }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                        {{ app.applicant_type or 'N/A' }} / {{ app.applicant_role or 'N/A' }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        {% if app.status == 'draft' %}
+                        <span
+                            class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-200 text-gray-800">Draft</span>
+                        {% elif app.status == 'processed' %}
+                        <span
+                            class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-200 text-blue-800">Processed</span>
+                        {% elif app.status == 'under_review' %}
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-200 text-yellow-800">Under
+                            Review</span>
+                        {% elif app.status == 'approved' %}
+                        <span
+                            class="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-800">Approved</span>
+                        {% elif app.status == 'rejected' %}
+                        <span
+                            class="px-2 py-1 text-xs font-semibold rounded-full bg-red-200 text-red-800">Rejected</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                        {{ app.created_at[:10] if app.created_at else 'N/A' }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                        {% if app.status == 'draft' %}
+                        <div class="flex space-x-3">
+                            <a href="/broker/application/{{ app.application_id }}/upload"
+                                class="text-hcl-primary hover:text-blue-700 font-medium">
+                                <i class="fas fa-upload mr-1"></i>Upload Docs
+                            </a>
+                            <button onclick="deleteApplication('{{ app.application_id }}')"
+                                class="text-red-500 hover:text-red-700 font-medium">
+                                <i class="fas fa-trash mr-1"></i>Delete
+                            </button>
+                        </div>
+                        {% elif app.status in ['processed', 'under_review', 'approved', 'rejected'] %}
+                        <div class="flex space-x-3">
+                            <a href="/broker/application/{{ app.application_id }}/review"
+                                class="text-hcl-primary hover:text-blue-700 font-medium">
+                                <i class="fas fa-eye mr-1"></i>View
+                            </a>
+                            <button onclick="deleteApplication('{{ app.application_id }}')"
+                                class="text-red-500 hover:text-red-700 font-medium">
+                                <i class="fas fa-trash mr-1"></i>Delete
+                            </button>
+                        </div>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-center py-12">
+        <i class="fas fa-folder-open text-6xl text-gray-300 mb-4"></i>
+        <p class="text-gray-600">No applications yet. Create your first application to get started.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function deleteApplication(applicationId) {
+        if (confirm('Are you sure you want to delete this application? This action cannot be undone.')) {
+            // Find CSRF token from document meta or any form (we'll fetch from an existing form if needed, or send without if not required)
+
+            // Since we need CSRF and it might not be globally exposed, we use the header approach or append it if available
+            fetch(`/broker/application/${applicationId}/delete`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token() }}'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        window.location.reload();
+                    } else {
+                        alert('Error deleting application: ' + (data.error || 'Unknown error'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while deleting the application.');
+                });
+        }
+    }
+</script>
+{% endblock %}

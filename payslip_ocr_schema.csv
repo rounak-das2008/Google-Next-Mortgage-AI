@@ -1,0 +1,34 @@
+Sl No,Name,Data Type,Method,Occurrence
+1,abn,Plain text,Extract,
+2,annual_salary,Plain text,Extract,Optional multiple
+3,base_income,Plain text,Extract,Optional multiple
+4,deduction_item,,Extract,Optional multiple
+,deduction_this_period,Money,Extract,Optional once
+,deduction_type,Plain text,Extract,Optional once
+,deduction_ytd,Money,Extract,Optional once
+5,earning_item,,Extract,Optional multiple
+,earning_hours,Plain text,Extract,Optional once
+,earning_rate,Plain text,Extract,Optional once
+,earning_this_period,Money,Extract,Optional once
+,earning_type,Plain text,Extract,Optional once
+,earning_ytd,Money,Extract,Optional once
+6,employee_classification,Plain text,Extract,Optional multiple
+7,employee_name,Plain text,Extract,Optional once
+8,employer_name,Plain text,Extract,Optional once
+9,employment_type,Plain text,Extract,Optional multiple
+10,end_date,Datetime,Extract,Optional once
+11,gross_earnings,Money,Extract,Optional once
+12,gross_earnings_ytd,Money,Extract,Optional once
+13,net_pay,Money,Extract,Optional once
+14,net_pay_ytd,Money,Extract,Optional once
+15,page_number,Plain text,Extract,Optional multiple
+16,pay_date,Datetime,Extract,Optional once
+17,start_date,Datetime,Extract,Optional once
+18,superannuation_item,,Extract,Optional multiple
+,superannuation_this_period,Plain text,Extract,Optional multiple
+,superannuation_type,Plain text,Extract,Optional multiple
+,superannuation_ytd,Plain text,Extract,Optional multiple
+19,tax_item,,Extract,Optional multiple
+,tax_this_period,Money,Extract,Optional once
+,tax_type,Plain text,Extract,Optional once
+,tax_ytd,Money,Extract,Optional once
