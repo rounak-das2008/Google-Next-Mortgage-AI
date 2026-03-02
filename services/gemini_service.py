@@ -30,7 +30,7 @@ class GeminiService:
             
         except Exception as e:
             logger.error(f"❌ CRITICAL: Vertex AI initialization failed: {e}")
-            logger.error("   PAYG policy checks will NOT work without Vertex AI!")
+            logger.error("   Standard Income policy checks will NOT work without Vertex AI!")
             self.model = None
             self.client_available = False
             raise RuntimeError(f"Vertex AI is required but failed to initialize: {e}")
@@ -170,7 +170,7 @@ Keep the summary professional, clear, and concise (250-400 words)."""
     
     def analyze_all_policies_batched(self, policy_checks: List[tuple], document_data: Dict[str, Any], all_policies: Dict[str, str]) -> str:
         """
-        Analyze ALL 12 PAYG policies in a single batched AI call.
+        Analyze ALL 18 Standard Income policies in a single batched AI call.
         This is much more efficient and avoids quota limits.
         
         Args:
@@ -189,7 +189,7 @@ Keep the summary professional, clear, and concise (250-400 words)."""
             # Load policy config for keyword matching
             import json
             import os
-            config_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'payg_policy_config.json')
+            config_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'standard_income_policy_config.json')
             policy_config = {}
             try:
                 with open(config_file, 'r') as f:
@@ -270,7 +270,7 @@ COMPLETE PAYSLIP DATA (for detailed analysis - includes ALL extracted fields):
 POLICY CONFIGURATION (use these keywords to find relevant data):
 {json.dumps(policy_config.get('policy_matching_rules', {}), indent=2)}
 
-THE 18 PAYG POLICIES TO ANALYZE:
+THE 18 STANDARD INCOME POLICIES TO ANALYZE:
 {policies_list}
 
 YOUR TASK:
@@ -281,7 +281,7 @@ SPECIAL CLASSIFICATION RULE:
 
 FORMAT YOUR RESPONSE EXACTLY LIKE THIS:
 
-## 1. PAYG Income (tenure)
+## 1. Standard Income (tenure)
 **Status**: [PASS/FAIL/WARNING/NOT_APPLICABLE]
 **Summary**: [1-2 sentences with key quantifiable info only, e.g., "Full-time employment, 3 months tenure"]
 **Additional Details**: [Show ALL relevant data found: employment_type value, employee_classification value, any tenure indicators, YTD figures that indicate duration, pay period dates]
@@ -336,7 +336,7 @@ FORMAT YOUR RESPONSE EXACTLY LIKE THIS:
 **Summary**: [ONLY amounts if found, e.g., "$0" OR "No parental leave identified"]
 **Additional Details**: [Show any earning_items with parental/maternity/paternity in type, if any found show amounts]
 
-## 12. PAYG Income Verification
+## 12. Standard Income Verification
 **Status**: [PASS/FAIL/WARNING]
 **Summary**: [e.g., "2 payslips provided, meets requirement" OR "1 payslip with YTD figures"]
 **Additional Details**: [Show: number of payslips provided, YTD fields present (gross_earnings_ytd, net_pay_ytd values), whether YTD data is available]
@@ -385,7 +385,7 @@ CRITICAL RULES:
 
 Extract and summarize now:"""
 
-            logger.info("Making single batched AI call for all 18 PAYG policies...")
+            logger.info("Making single batched AI call for all 18 Standard Income policies...")
             response = self.model.generate_content(prompt)
             
             if response and response.text:
@@ -454,12 +454,12 @@ ADDITIONAL CONTEXT:
             # Include related policies for context
             related_policies = ""
             if all_policies:
-                related_policies = "\n\nRELATED PAYG POLICIES FOR CONTEXT:\n"
+                related_policies = "\n\nRELATED STANDARD INCOME POLICIES FOR CONTEXT:\n"
                 for p_name, p_details in all_policies.items():
                     if p_name != policy_name and p_details:
                         related_policies += f"\n{p_name}:\n{p_details[:200]}...\n"
             
-            prompt = f"""You are an expert mortgage policy analyst specializing in PAYG (Pay As You Go) income verification for residential mortgages.
+            prompt = f"""You are an expert mortgage policy analyst specializing in Standard (regular employment) income verification for residential mortgages.
 
 POLICY TO ANALYZE: {policy_name}
 

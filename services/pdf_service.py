@@ -152,9 +152,9 @@ class PDFService:
                 'cross'
             ))
         
-        # PAYG Income Policy Checks
-        if validation_results.get('payg_policy_checks'):
-            content.extend(self._build_payg_policy_section(validation_results['payg_policy_checks']))
+        # Standard Income Policy Checks
+        if validation_results.get('standard_income_policy_checks'):
+            content.extend(self._build_standard_income_policy_section(validation_results['standard_income_policy_checks']))
         
         # Extracted Document Data
         if application.get('processed_documents'):
@@ -426,15 +426,15 @@ class PDFService:
         
         return content
     
-    def _build_payg_policy_section(self, payg_policy_checks: dict) -> list:
-        """Build the PAYG Income Policy Checks section."""
+    def _build_standard_income_policy_section(self, standard_income_policy_checks: dict) -> list:
+        """Build the Standard Income Policy Checks section."""
         content = []
         
-        content.append(Paragraph("PAYG Income Policy Checks", self.styles['SectionHeader']))
+        content.append(Paragraph("Standard Income Policy Checks", self.styles['SectionHeader']))
         
-        checks = payg_policy_checks.get('checks', [])
+        checks = standard_income_policy_checks.get('checks', [])
         if not checks:
-            content.append(Paragraph("No PAYG policy checks available.", self.styles['CustomBodyText']))
+            content.append(Paragraph("No Standard Income policy checks available.", self.styles['CustomBodyText']))
             return content
         
         # Separate passed and failed checks
@@ -444,12 +444,12 @@ class PDFService:
         # Build passed checks table
         if passed_checks:
             content.append(Paragraph("Passed Checks", self.styles['SubsectionHeader']))
-            content.extend(self._build_payg_checks_table(passed_checks))
+            content.extend(self._build_standard_income_checks_table(passed_checks))
         
         # Build failed checks table
         if failed_checks:
             content.append(Paragraph("Failed Checks", self.styles['SubsectionHeader']))
-            content.extend(self._build_payg_checks_table(failed_checks, is_failed=True))
+            content.extend(self._build_standard_income_checks_table(failed_checks, is_failed=True))
         
         # AI note
         note_data = [[Paragraph(
@@ -472,8 +472,8 @@ class PDFService:
         
         return content
     
-    def _build_payg_checks_table(self, checks: list, is_failed: bool = False) -> list:
-        """Build a table for PAYG policy checks."""
+    def _build_standard_income_checks_table(self, checks: list, is_failed: bool = False) -> list:
+        """Build a table for Standard Income policy checks."""
         content = []
         
         header = ['Status', 'Policy Name', 'Summary']

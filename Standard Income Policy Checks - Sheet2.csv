@@ -1,5 +1,5 @@
 S.No,Policy Name,,
-1,"PAYG Income
+1,"Standard Income
  (tenure)","Full time, part time or contract employment  [It should be present in the payslip]
  • Minimum 3 months (6 months with LMI) with current employer [LMI (Lenders Mortgage Insurance) information will be present in application form; so just check if salary is credited for 3 months from the same employer in bank statement, and in the summary you can say that ""For Applicants with LMI, Further verification is needed as the validation has dependencies on application form ""] ; or 
  • Minimum 2 years in a similar role/industry utilising a similar skill set [This information will be present in application form;and in the summary you can say that "" Further verification is needed as the validation has dependencies on application form "" ]
@@ -12,7 +12,7 @@ S.No,Policy Name,,
  Applicants in a Probation Period are acceptable provided stability of employment history, similar role/industry, higher education and/or promotion. [If we have identified the employement type as Probation, we cannot do additional checks; and in the summary you can say that "" Further verification is needed as the validation has dependencies on letter from the employer "" ]","1. Requestor seems to be full time/casual employee of ABC company
  2. Requestor has worked currently for 3/6 months with ABC company
  3. The user is a probationary user with not much clarity on employment history/similar role"
-,"PAYG Income Type 
+,"Standard Income Type 
  (% used in servicing)","[For the below checks:
  Step 1: Trying to extract the figure against the header
  Step 2: Validate against policy.
@@ -49,7 +49,7 @@ S.No,Policy Name,,
   
  All non-cash components of Salary Sacrifice are subject to confirmation via letter from the employer that the borrower has the option to convert these items to cash. Care must be taken to understand whether the arrangement is voluntary, either from documentation already held (e.g. Payslip, etc.) or a letter from the employer. [We wont be able to verify it. we can say in summary that"" Further verification is needed as the validation has dependencies on letter from the employer "" ]
   
- Where a PAYG employee voluntarily arranges amounts deducted for superannuation – confirmation is required that the borrower can cease the arrangement. Once confirmed then this amount can be added to the taxable portion of their income (as confirmed there will be no voluntary superannuation deduction going forward). [Related to lend fast, do not consider for policy verification]
+ Where a Standard Income employee voluntarily arranges amounts deducted for superannuation – confirmation is required that the borrower can cease the arrangement. Once confirmed then this amount can be added to the taxable portion of their income (as confirmed there will be no voluntary superannuation deduction going forward). [Related to lend fast, do not consider for policy verification]
   
  Tax free 
  Some occupations (Clergy, Health, Charity workers) can arrange a portion of their income deducted before tax. These deducted payments can be allocated for mortgage payments, utility bills etc. Any tax free amounts must be entered into the Tax Free Income box of the servicing assessment (as tax free). [Related to lend fast, do not consider for policy verification]",
@@ -60,7 +60,7 @@ S.No,Policy Name,,
  Supported by all the following: 
  • A letter from employer <60 days old including terms of the parental leave 
  o return to work date, salary upon return, future employment terms (full to part time) 
- • Verification of income by letter from employer (or see PAYG income verification) [We wont be able to verify it. we can say in summary that"" Further verification is needed as the validation has dependencies on letter from the employer "" ]
+ • Verification of income by letter from employer (or see Standard Income income verification) [We wont be able to verify it. we can say in summary that"" Further verification is needed as the validation has dependencies on letter from the employer "" ]
   
  
  • Any childcare or living expenses must be included in Customer Declared Living Expenses  [Related to lend fast, do not consider for policy verification]
@@ -78,15 +78,15 @@ S.No,Policy Name,,
  Post the parental leave period these above types of income are not eligible for servicing. 
  For reporting purposes the decision code “PARENTAL_LEAVE_FUTURE_INCOME” must be entered into 
  Lendfast for all parental leave approvals.  [We wont be able to verify it. we can say in summary that"" Further verification is needed as the validation has dependencies on other external documents"" ]",
-,PAYG Income Verification,[These are the document evidence requirements for the above components of payslip. ],
-11,"PAYG 
+,Standard Income Verification,[These are the document evidence requirements for the above components of payslip. ],
+11,"Standard Income 
  Income 
  Verification","Where base income used in servicing 
  • 2 payslips [Check if the borrower has furnished two payslips.]
  OR 
  • Recent payslip (preferably with YTD figures) and any one of either: 
- last year’s tax return or assessment notice or ATO Income Statement or PAYG Payment Summary 
- Bank statements can be requested at discretion as part of application assessment. [ We wont be able to do this verification, we can say in summary that"" One payslip is present & Further verification is needed as the validation has dependencies on last year’s tax return or assessment notice or ATO Income Statement or PAYG Payment Summary"" ]
+ last year’s tax return or assessment notice or ATO Income Statement or Standard Income Payment Summary 
+ Bank statements can be requested at discretion as part of application assessment. [ We wont be able to do this verification, we can say in summary that"" One payslip is present & Further verification is needed as the validation has dependencies on last year’s tax return or assessment notice or ATO Income Statement or Standard Income Payment Summary"" ]
  
  When borrowers have recently commenced new employment and insufficient time has passed to allow for the issuance of 2 payslips, it is acceptable to rely on the first payslip and full employment contract [ We wont be able to do this verification, we can say in summary that"" One payslip is present & Further verification is needed as the validation has dependencies on employment contract from the employer"" ]
  

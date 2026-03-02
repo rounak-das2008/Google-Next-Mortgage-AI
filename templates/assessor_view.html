@@ -422,10 +422,10 @@
 </div>
 {% endif %}
 
-{% if application.validation_results.payg_policy_checks %}
+{% if application.validation_results.standard_income_policy_checks %}
 <div class="card-hcl mb-6">
     <h2 class="text-xl font-semibold text-hcl-dark-blue mb-4">
-        <i class="fas fa-file-invoice-dollar text-hcl-primary mr-2"></i>PAYG Income Policy Checks
+        <i class="fas fa-file-invoice-dollar text-hcl-primary mr-2"></i>Standard Income Policy Checks
     </h2>
 
     <div class="overflow-x-auto">
@@ -440,7 +440,8 @@
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
                 {# First show all non-failed checks #}
-                {% for check in application.validation_results.payg_policy_checks.checks if check.status != 'fail' %}
+                {% for check in application.validation_results.standard_income_policy_checks.checks if check.status !=
+                'fail' %}
                 {% set has_details = '**Additional Details:**' in check.message %}
                 {% if has_details %}
                 {% set parts = check.message.split('**Additional Details:**') %}
@@ -470,9 +471,9 @@
                     </td>
                     <td class="px-4 py-3 text-center">
                         {% if has_details %}
-                        <button onclick="toggleDetails('payg-{{ loop.index }}')"
+                        <button onclick="toggleDetails('standard_income-{{ loop.index }}')"
                             class="inline-flex items-center px-4 py-2 bg-hcl-primary hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors shadow-sm">
-                            <i class="fas fa-chevron-down mr-2" id="icon-payg-{{ loop.index }}"></i>
+                            <i class="fas fa-chevron-down mr-2" id="icon-standard_income-{{ loop.index }}"></i>
                             More Details
                         </button>
                         {% else %}
@@ -481,7 +482,7 @@
                     </td>
                 </tr>
                 {% if has_details %}
-                <tr id="payg-{{ loop.index }}" class="hidden bg-blue-50">
+                <tr id="standard_income-{{ loop.index }}" class="hidden bg-blue-50">
                     <td colspan="4" class="px-6 py-5">
                         <div class="bg-white rounded-lg p-5 border-l-4 border-hcl-primary shadow-sm">
                             <h4 class="text-base font-semibold text-gray-900 mb-3">
@@ -498,18 +499,19 @@
     </div>
 
     {# Failed checks collapsed section #}
-    {% set failed_checks = application.validation_results.payg_policy_checks.checks | selectattr('status', 'equalto',
+    {% set failed_checks = application.validation_results.standard_income_policy_checks.checks | selectattr('status',
+    'equalto',
     'fail') | list %}
     {% if failed_checks|length > 0 %}
     <div class="mt-6 border-t pt-4">
-        <button type="button" onclick="toggleFailedSection('payg')"
+        <button type="button" onclick="toggleFailedSection('standard_income')"
             class="inline-flex items-center px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 text-sm font-semibold rounded-lg shadow-sm transition-colors">
             <i class="fas fa-times-circle mr-2"></i>
-            <span id="failed-payg-toggle-label">Show Failed Checks ({{ failed_checks|length }})</span>
-            <i class="fas fa-chevron-down ml-2" id="icon-failed-payg"></i>
+            <span id="failed-standard_income-toggle-label">Show Failed Checks ({{ failed_checks|length }})</span>
+            <i class="fas fa-chevron-down ml-2" id="icon-failed-standard_income"></i>
         </button>
 
-        <div id="failed-payg-container" class="mt-4 hidden">
+        <div id="failed-standard_income-container" class="mt-4 hidden">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-red-50">
                     <tr>
@@ -544,9 +546,9 @@
                         </td>
                         <td class="px-4 py-3 text-center">
                             {% if has_details %}
-                            <button onclick="toggleDetails('payg-fail-{{ loop.index }}')"
+                            <button onclick="toggleDetails('standard_income-fail-{{ loop.index }}')"
                                 class="inline-flex items-center px-4 py-2 bg-hcl-primary hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors shadow-sm">
-                                <i class="fas fa-chevron-down mr-2" id="icon-payg-fail-{{ loop.index }}"></i>
+                                <i class="fas fa-chevron-down mr-2" id="icon-standard_income-fail-{{ loop.index }}"></i>
                                 More Details
                             </button>
                             {% else %}
@@ -555,7 +557,7 @@
                         </td>
                     </tr>
                     {% if has_details %}
-                    <tr id="payg-fail-{{ loop.index }}" class="hidden bg-blue-50">
+                    <tr id="standard_income-fail-{{ loop.index }}" class="hidden bg-blue-50">
                         <td colspan="4" class="px-6 py-5">
                             <div class="bg-white rounded-lg p-5 border-l-4 border-hcl-primary shadow-sm">
                                 <h4 class="text-base font-semibold text-gray-900 mb-3">

@@ -75,7 +75,7 @@
             <i class="fas fa-circle-notch text-2xl text-gray-400 mr-4"></i>
             <div>
                 <p class="font-semibold text-gray-800">Validating Against Policies</p>
-                <p class="text-sm text-gray-600" id="step3Detail">Checking PAYG verification rules...</p>
+                <p class="text-sm text-gray-600" id="step3Detail">Checking Standard Income verification rules...</p>
             </div>
         </div>
 
@@ -105,141 +105,141 @@
 
 {% block extra_js %}
 <script>
-const applicationId = '{{ application_id }}';
-let processingInterval;
+    const applicationId = '{{ application_id }}';
+    let processingInterval;
 
-async function startProcessing() {
-    try {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-        const response = await fetch(`/api/process/${applicationId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken
+    async function startProcessing() {
+        try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+            const response = await fetch(`/api/process/${applicationId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                }
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Start polling for status updates
+                processingInterval = setInterval(checkProcessingStatus, 1000);
+            } else {
+                showError(data.error || 'Failed to start processing');
             }
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            // Start polling for status updates
-            processingInterval = setInterval(checkProcessingStatus, 1000);
-        } else {
-            showError(data.error || 'Failed to start processing');
+        } catch (error) {
+            showError('Network error: ' + error.message);
         }
-    } catch (error) {
-        showError('Network error: ' + error.message);
     }
-}
 
-async function checkProcessingStatus() {
-    try {
-        const response = await fetch(`/api/process/${applicationId}/status`);
-        const data = await response.json();
-        
-        if (!response.ok) {
-            showError(data.error || 'Failed to get processing status');
-            clearInterval(processingInterval);
-            return;
+    async function checkProcessingStatus() {
+        try {
+            const response = await fetch(`/api/process/${applicationId}/status`);
+            const data = await response.json();
+
+            if (!response.ok) {
+                showError(data.error || 'Failed to get processing status');
+                clearInterval(processingInterval);
+                return;
+            }
+
+            const status = data.processing_status;
+
+            // Update progress bar
+            updateProgressBar(status.progress_percentage, status.current_stage);
+
+            // Update step indicators based on current stage
+            updateStepsBasedOnStage(status.current_stage, status.processed_documents, status.total_documents);
+
+            // Check if processing is complete or has error
+            if (status.status === 'completed') {
+                clearInterval(processingInterval);
+                document.getElementById('successMessage').classList.remove('hidden');
+
+                setTimeout(() => {
+                    window.location.href = `/broker/application/${applicationId}/review`;
+                }, 2000);
+            } else if (status.status === 'error') {
+                clearInterval(processingInterval);
+                showError(status.error || 'An error occurred during processing');
+            }
+        } catch (error) {
+            console.error('Error checking status:', error);
         }
-        
-        const status = data.processing_status;
-        
-        // Update progress bar
-        updateProgressBar(status.progress_percentage, status.current_stage);
-        
-        // Update step indicators based on current stage
-        updateStepsBasedOnStage(status.current_stage, status.processed_documents, status.total_documents);
-        
-        // Check if processing is complete or has error
-        if (status.status === 'completed') {
-            clearInterval(processingInterval);
-            document.getElementById('successMessage').classList.remove('hidden');
-            
-            setTimeout(() => {
-                window.location.href = `/broker/application/${applicationId}/review`;
-            }, 2000);
-        } else if (status.status === 'error') {
-            clearInterval(processingInterval);
-            showError(status.error || 'An error occurred during processing');
-        }
-    } catch (error) {
-        console.error('Error checking status:', error);
     }
-}
 
-function updateProgressBar(percentage, stage) {
-    const progressBar = document.getElementById('progressBar');
-    const progressLabel = document.getElementById('progressLabel');
-    const progressPercentage = document.getElementById('progressPercentage');
-    
-    progressBar.style.width = `${percentage}%`;
-    progressPercentage.textContent = `${percentage}%`;
-    progressLabel.textContent = stage;
-}
+    function updateProgressBar(percentage, stage) {
+        const progressBar = document.getElementById('progressBar');
+        const progressLabel = document.getElementById('progressLabel');
+        const progressPercentage = document.getElementById('progressPercentage');
 
-function updateStepsBasedOnStage(stage, processed, total) {
-    // Reset all steps to inactive
-    for (let i = 1; i <= 4; i++) {
-        const stepEl = document.getElementById(`step${i}`);
-        stepEl.classList.add('opacity-50', 'bg-gray-100');
-        stepEl.classList.remove('bg-blue-50', 'bg-green-50');
-        
+        progressBar.style.width = `${percentage}%`;
+        progressPercentage.textContent = `${percentage}%`;
+        progressLabel.textContent = stage;
+    }
+
+    function updateStepsBasedOnStage(stage, processed, total) {
+        // Reset all steps to inactive
+        for (let i = 1; i <= 4; i++) {
+            const stepEl = document.getElementById(`step${i}`);
+            stepEl.classList.add('opacity-50', 'bg-gray-100');
+            stepEl.classList.remove('bg-blue-50', 'bg-green-50');
+
+            const icon = stepEl.querySelector('i');
+            icon.className = 'fas fa-circle-notch text-2xl text-gray-400 mr-4';
+        }
+
+        // Update document count in step details
+        if (processed !== undefined && total !== undefined) {
+            document.getElementById('step1Detail').textContent = `Processing ${processed} of ${total} documents`;
+        }
+
+        // Determine which step is active based on the stage
+        if (stage.includes('Classifying')) {
+            updateStep(1, 'active');
+        } else if (stage.includes('Extracting')) {
+            updateStep(1, 'complete');
+            updateStep(2, 'active');
+            document.getElementById('step2Detail').textContent = stage;
+        } else if (stage.includes('Validating') || stage.includes('Running validation')) {
+            updateStep(1, 'complete');
+            updateStep(2, 'complete');
+            updateStep(3, 'active');
+        } else if (stage.includes('Generating') || stage.includes('AI summary')) {
+            updateStep(1, 'complete');
+            updateStep(2, 'complete');
+            updateStep(3, 'complete');
+            updateStep(4, 'active');
+        } else if (stage.includes('complete')) {
+            updateStep(1, 'complete');
+            updateStep(2, 'complete');
+            updateStep(3, 'complete');
+            updateStep(4, 'complete');
+        }
+    }
+
+    function updateStep(step, status) {
+        const stepEl = document.getElementById(`step${step}`);
         const icon = stepEl.querySelector('i');
-        icon.className = 'fas fa-circle-notch text-2xl text-gray-400 mr-4';
-    }
-    
-    // Update document count in step details
-    if (processed !== undefined && total !== undefined) {
-        document.getElementById('step1Detail').textContent = `Processing ${processed} of ${total} documents`;
-    }
-    
-    // Determine which step is active based on the stage
-    if (stage.includes('Classifying')) {
-        updateStep(1, 'active');
-    } else if (stage.includes('Extracting')) {
-        updateStep(1, 'complete');
-        updateStep(2, 'active');
-        document.getElementById('step2Detail').textContent = stage;
-    } else if (stage.includes('Validating') || stage.includes('Running validation')) {
-        updateStep(1, 'complete');
-        updateStep(2, 'complete');
-        updateStep(3, 'active');
-    } else if (stage.includes('Generating') || stage.includes('AI summary')) {
-        updateStep(1, 'complete');
-        updateStep(2, 'complete');
-        updateStep(3, 'complete');
-        updateStep(4, 'active');
-    } else if (stage.includes('complete')) {
-        updateStep(1, 'complete');
-        updateStep(2, 'complete');
-        updateStep(3, 'complete');
-        updateStep(4, 'complete');
-    }
-}
 
-function updateStep(step, status) {
-    const stepEl = document.getElementById(`step${step}`);
-    const icon = stepEl.querySelector('i');
-    
-    if (status === 'active') {
-        stepEl.classList.remove('opacity-50', 'bg-gray-100');
-        stepEl.classList.add('bg-blue-50');
-        icon.className = 'fas fa-spinner fa-spin text-2xl text-blue-600 mr-4';
-    } else if (status === 'complete') {
-        stepEl.classList.remove('opacity-50', 'bg-gray-100', 'bg-blue-50');
-        stepEl.classList.add('bg-green-50');
-        icon.className = 'fas fa-check-circle text-2xl text-green-600 mr-4';
+        if (status === 'active') {
+            stepEl.classList.remove('opacity-50', 'bg-gray-100');
+            stepEl.classList.add('bg-blue-50');
+            icon.className = 'fas fa-spinner fa-spin text-2xl text-blue-600 mr-4';
+        } else if (status === 'complete') {
+            stepEl.classList.remove('opacity-50', 'bg-gray-100', 'bg-blue-50');
+            stepEl.classList.add('bg-green-50');
+            icon.className = 'fas fa-check-circle text-2xl text-green-600 mr-4';
+        }
     }
-}
 
-function showError(message) {
-    document.getElementById('errorMessage').classList.remove('hidden');
-    document.getElementById('errorText').textContent = message;
-    clearInterval(processingInterval);
-}
+    function showError(message) {
+        document.getElementById('errorMessage').classList.remove('hidden');
+        document.getElementById('errorText').textContent = message;
+        clearInterval(processingInterval);
+    }
 
-// Start processing when page loads
-document.addEventListener('DOMContentLoaded', startProcessing);
+    // Start processing when page loads
+    document.addEventListener('DOMContentLoaded', startProcessing);
 </script>
 {% endblock %}

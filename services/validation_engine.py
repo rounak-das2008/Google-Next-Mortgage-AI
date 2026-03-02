@@ -24,7 +24,7 @@ class ValidationEngine:
         """Load policy details from CSV file"""
         policy_details = {}
         policy_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), 
-                                  'PAYG Policy Checks - Sheet2.csv')
+                                  'Standard Income Policy Checks - Sheet2.csv')
         
         try:
             with open(policy_file, 'r') as f:
@@ -39,15 +39,15 @@ class ValidationEngine:
         return policy_details
     
     def _load_policy_config(self) -> Dict[str, Any]:
-        """Load policy configuration from payg_policy_config.json"""
+        """Load policy configuration from standard_income_policy_config.json"""
         policy_config = {}
         config_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), 
-                                   'payg_policy_config.json')
+                                   'standard_income_policy_config.json')
         
         try:
             with open(config_file, 'r') as f:
                 policy_config = json.load(f)
-            logger.info("Successfully loaded payg_policy_config.json")
+            logger.info("Successfully loaded standard_income_policy_config.json")
         except Exception as e:
             logger.warning(f"Could not load policy config: {e}")
         
@@ -90,10 +90,10 @@ class ValidationEngine:
         completeness_checks = self._validate_document_completeness(processed_docs)
         validation_results['checks'].extend(completeness_checks)
         
-        # Add PAYG policy checks
-        payg_policy_results = self._validate_payg_policies(payslips, bank_statements)
-        validation_results['payg_policy_checks'] = payg_policy_results
-        validation_results['checks'].extend(payg_policy_results['checks'])
+        # Add Standard Income policy checks
+        standard_income_policy_results = self._validate_standard_income_policies(payslips, bank_statements)
+        validation_results['standard_income_policy_checks'] = standard_income_policy_results
+        validation_results['checks'].extend(standard_income_policy_results['checks'])
         
         for check in validation_results['checks']:
             validation_results['summary']['total_checks'] += 1
@@ -470,7 +470,7 @@ class ValidationEngine:
         checks.append(self._create_check(
             "Document Completeness: Payslip Provided",
             has_payslip,
-            "At least one payslip is required for PAYG verification",
+            "At least one payslip is required for Standard Income verification",
             1.0,
             "DOC_COMPLETENESS",
             "EXC_MISSING_PAYSLIP" if not has_payslip else None
@@ -496,9 +496,9 @@ class ValidationEngine:
         
         return checks
     
-    def _validate_payg_policies(self, payslips: List[Dict[str, Any]], bank_statements: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def _validate_standard_income_policies(self, payslips: List[Dict[str, Any]], bank_statements: List[Dict[str, Any]]) -> Dict[str, Any]:
         """
-        Validate PAYG policies based on the 18 policy checks defined in the requirements.
+        Validate Standard Income policies based on the 18 policy checks defined in the requirements.
         Uses Vertex AI (Gemini) for intelligent analysis with full payslip context.
         OPTIMIZED: Makes a single batched AI call for all 18 policies to avoid quota limits.
         Returns a dictionary with policy check results.
@@ -550,9 +550,9 @@ class ValidationEngine:
             # Load all policy details for context
             all_policies = getattr(self, 'policy_details', {}) or {}
             
-            # Define the 18 main PAYG policy checks
+            # Define the 18 main Standard Income policy checks
             policy_checks = [
-                ("PAYG Income\n (tenure)", "PAYG Income (tenure)"),
+                ("Standard Income\n (tenure)", "Standard Income (tenure)"),
                 ("Base income (100%)", "Base income (100%)"),
                 ("Casual income \n (100%)", "Casual income (100%)"),
                 ("Second Job (100%)", "Second Job (100%)"),
@@ -563,7 +563,7 @@ class ValidationEngine:
                 ("Superannuation \n Contributions \n (Employer) (100%)", "Superannuation Contributions (Employer) (100%)"),
                 ("Salary Sacrifice and \n Salary Packaging \n Arrangements \n (100%)", "Salary Sacrifice and Salary Packaging Arrangements (100%)"),
                 ("Parental Leave \n (Employer or \n Government)", "Parental Leave (Employer or Government)"),
-                ("PAYG \n Income \n Verification", "PAYG Income Verification"),
+                ("Standard Income \n Verification", "Standard Income Verification"),
                 ("Document\n requirements\n All dates are\n based on the\n date of\n submission", "Document requirements"),
                 ("Pre-Tax Deduction", "Pre-Tax Deduction"),
                 ("Post-Tax Deduction", "Post-Tax Deduction"),
@@ -573,7 +573,7 @@ class ValidationEngine:
             ]
             
             # OPTIMIZATION: Batch all 18 policy checks into a single AI call
-            logger.info("Analyzing all 18 PAYG policies in a single batched AI call...")
+            logger.info("Analyzing all 18 Standard Income policies in a single batched AI call...")
             
             try:
                 # Make a single batched AI call for all policies
@@ -615,7 +615,7 @@ class ValidationEngine:
             
         except Exception as e:
             # Catch-all exception handler to prevent app crashes
-            logger.error(f"Error in _validate_payg_policies: {e}")
+            logger.error(f"Error in _validate_standard_income_policies: {e}")
             return {
                 'checks': [],
                 'summary': {
@@ -631,7 +631,7 @@ class ValidationEngine:
                                      document_data: Dict[str, Any], 
                                      all_policies: Dict[str, str]) -> List[Dict[str, Any]]:
         """
-        Check all 18 PAYG policies in a single batched AI call to avoid quota limits.
+        Check all 18 Standard Income policies in a single batched AI call to avoid quota limits.
         This is much more efficient than making 18 separate API calls.
         """
         try:
@@ -738,7 +738,7 @@ class ValidationEngine:
         """
         try:
             # Look for the policy section in the batch analysis
-            # The AI response should have sections like "## 1. PAYG Income (tenure)"
+            # The AI response should have sections like "## 1. Standard Income (tenure)"
             
             # Try to find the section for this policy
             import re
@@ -769,7 +769,7 @@ class ValidationEngine:
     def _check_policy_with_ai(self, policy_name: str, policy_details: str, 
                               document_data: Dict[str, Any], all_policies: Dict[str, str]) -> Dict[str, Any]:
         """
-        Check a specific PAYG policy using Vertex AI with full payslip context.
+        Check a specific Standard Income policy using Vertex AI with full payslip context.
         This ensures NO fallback - only Vertex AI is used for analysis.
         """
         try:
@@ -875,8 +875,8 @@ class ValidationEngine:
         # For now, just return the number of payslips as an approximation
         return len(payslips)
     
-    def _check_payg_income_tenure(self, employment_type: str, tenure_months: int) -> Dict[str, Any]:
-        """Check PAYG Income tenure policy"""
+    def _check_standard_income_tenure(self, employment_type: str, tenure_months: int) -> Dict[str, Any]:
+        """Check Standard Income tenure policy"""
         status = 'fail'
         message = ''
         
@@ -899,11 +899,11 @@ class ValidationEngine:
             message = f"Employment type: {employment_type}. Unable to determine tenure requirements."
         
         return self._create_check(
-            "PAYG Income (tenure)",
+            "Standard Income (tenure)",
             status == 'pass',
             message,
             0.8,
-            "POLICY_PAYG_INCOME_TENURE",
+            "POLICY_STANDARD_INCOME_TENURE",
             None,
             status
         )
@@ -972,7 +972,7 @@ class ValidationEngine:
         status = 'pass' if base_income > 0 else 'warning'
         message = f"Base income: ${base_income:.2f}" if base_income > 0 else "Base income not found in payslip. Check if it's included under a different field name."
         
-        # Add policy context from PAYG Policy Checks
+        # Add policy context from Standard Income Policy Checks
         policy_context = "Base income is considered at 100% for servicing calculations."
         if base_income > 0:
             message = f"{message}. {policy_context}"
@@ -1480,35 +1480,35 @@ class ValidationEngine:
             "warning"
         )
     
-    def _check_payg_income_verification(self, payslips: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """Check PAYG Income Verification policy"""
+    def _check_standard_income_verification(self, payslips: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Check Standard Income Verification policy"""
         if len(payslips) >= 2:
             return self._create_check(
-                "PAYG Income Verification",
+                "Standard Income Verification",
                 True,
                 f"Provided {len(payslips)} payslips, meeting the requirement of at least 2 payslips.",
                 0.8,
-                "POLICY_PAYG_INCOME_VERIFICATION",
+                "POLICY_STANDARD_INCOME_VERIFICATION",
                 None,
                 "pass"
             )
         elif len(payslips) == 1:
             return self._create_check(
-                "PAYG Income Verification",
+                "Standard Income Verification",
                 False,
-                "Only one payslip provided. Further verification needed with tax return, assessment notice, ATO Income Statement, or PAYG Payment Summary.",
+                "Only one payslip provided. Further verification needed with tax return, assessment notice, ATO Income Statement, or Standard Income Payment Summary.",
                 0.8,
-                "POLICY_PAYG_INCOME_VERIFICATION",
+                "POLICY_STANDARD_INCOME_VERIFICATION",
                 None,
                 "warning"
             )
         else:
             return self._create_check(
-                "PAYG Income Verification",
+                "Standard Income Verification",
                 False,
                 "No payslips provided.",
                 0.8,
-                "POLICY_PAYG_INCOME_VERIFICATION",
+                "POLICY_STANDARD_INCOME_VERIFICATION",
                 None,
                 "fail"
             )

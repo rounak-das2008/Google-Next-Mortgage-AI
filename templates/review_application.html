@@ -74,7 +74,7 @@
     <h2 class="text-xl font-semibold text-hcl-dark-blue mb-4">
         <i class="fas fa-tasks text-hcl-primary mr-2"></i>Validation Results Overview
     </h2>
-    
+
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <div class="bg-blue-50 p-4 rounded-lg text-center">
             <p class="text-3xl font-bold text-blue-600">{{ application.validation_results.summary.total_checks }}</p>
@@ -142,7 +142,8 @@
                     <td class="px-4 py-3 whitespace-nowrap">
                         <div class="flex items-center">
                             <div class="w-20 bg-gray-200 rounded-full h-2.5 mr-2">
-                                <div class="bg-hcl-primary h-2.5 rounded-full confidence-bar" data-confidence="{{ confidence_percent }}" style="width: 0%;"></div>
+                                <div class="bg-hcl-primary h-2.5 rounded-full confidence-bar"
+                                    data-confidence="{{ confidence_percent }}" style="width: 0%;"></div>
                             </div>
                             <span class="text-sm font-medium text-gray-700">{{ confidence_percent }}%</span>
                         </div>
@@ -165,25 +166,27 @@
             </tbody>
         </table>
     </div>
-    
+
     {% if failed_payslip_checks|length > 0 %}
     <div class="mt-6 border-t pt-4">
-        <button type="button" onclick="toggleFailedSection('payslip')" 
-                class="inline-flex items-center px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 text-sm font-semibold rounded-lg shadow-sm transition-colors">
+        <button type="button" onclick="toggleFailedSection('payslip')"
+            class="inline-flex items-center px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 text-sm font-semibold rounded-lg shadow-sm transition-colors">
             <i class="fas fa-times-circle mr-2"></i>
             <span id="failed-payslip-toggle-label">Show Failed Checks ({{ failed_payslip_checks|length }})</span>
             <i class="fas fa-chevron-down ml-2" id="icon-failed-payslip"></i>
         </button>
-        
+
         <div id="failed-payslip-container" class="mt-4 hidden">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-red-50">
                     <tr>
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Validation Check</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Validation Check
+                        </th>
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Details</th>
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Confidence</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Policy Reference</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Policy Reference
+                        </th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -206,8 +209,9 @@
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <div class="flex items-center">
-                            <div class="w-20 bg-gray-200 rounded-full h-2.5 mr-2">
-                                    <div class="bg-red-400 h-2.5 rounded-full confidence-bar" data-confidence="{{ confidence_percent }}" style="width: 0%;"></div>
+                                <div class="w-20 bg-gray-200 rounded-full h-2.5 mr-2">
+                                    <div class="bg-red-400 h-2.5 rounded-full confidence-bar"
+                                        data-confidence="{{ confidence_percent }}" style="width: 0%;"></div>
                                 </div>
                                 <span class="text-sm font-medium text-gray-700">{{ confidence_percent }}%</span>
                             </div>
@@ -275,7 +279,8 @@
                     <td class="px-4 py-3 whitespace-nowrap">
                         <div class="flex items-center">
                             <div class="w-20 bg-gray-200 rounded-full h-2.5 mr-2">
-                                <div class="bg-hcl-primary h-2.5 rounded-full confidence-bar" data-confidence="{{ confidence_percent }}" style="width: 0%;"></div>
+                                <div class="bg-hcl-primary h-2.5 rounded-full confidence-bar"
+                                    data-confidence="{{ confidence_percent }}" style="width: 0%;"></div>
                             </div>
                             <span class="text-sm font-medium text-gray-700">{{ confidence_percent }}%</span>
                         </div>
@@ -298,25 +303,27 @@
             </tbody>
         </table>
     </div>
-    
+
     {% if failed_bank_checks|length > 0 %}
     <div class="mt-6 border-t pt-4">
-        <button type="button" onclick="toggleFailedSection('bank')" 
-                class="inline-flex items-center px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 text-sm font-semibold rounded-lg shadow-sm transition-colors">
+        <button type="button" onclick="toggleFailedSection('bank')"
+            class="inline-flex items-center px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 text-sm font-semibold rounded-lg shadow-sm transition-colors">
             <i class="fas fa-times-circle mr-2"></i>
             <span id="failed-bank-toggle-label">Show Failed Checks ({{ failed_bank_checks|length }})</span>
             <i class="fas fa-chevron-down ml-2" id="icon-failed-bank"></i>
         </button>
-        
+
         <div id="failed-bank-container" class="mt-4 hidden">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-red-50">
                     <tr>
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Validation Check</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Validation Check
+                        </th>
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Details</th>
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Confidence</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Policy Reference</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Policy Reference
+                        </th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -339,8 +346,9 @@
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <div class="flex items-center">
-                            <div class="w-20 bg-gray-200 rounded-full h-2.5 mr-2">
-                                    <div class="bg-red-400 h-2.5 rounded-full confidence-bar" data-confidence="{{ confidence_percent }}" style="width: 0%;"></div>
+                                <div class="w-20 bg-gray-200 rounded-full h-2.5 mr-2">
+                                    <div class="bg-red-400 h-2.5 rounded-full confidence-bar"
+                                        data-confidence="{{ confidence_percent }}" style="width: 0%;"></div>
                                 </div>
                                 <span class="text-sm font-medium text-gray-700">{{ confidence_percent }}%</span>
                             </div>
@@ -380,7 +388,8 @@
             <tbody class="bg-white divide-y divide-gray-200">
                 {% for check in application.validation_results.cross_validation_checks %}
                 {% set confidence_percent = (check.confidence * 100)|int %}
-                <tr class="{% if check.status == 'fail' %}bg-red-50{% elif check.status == 'warning' %}bg-yellow-50{% endif %}">
+                <tr
+                    class="{% if check.status == 'fail' %}bg-red-50{% elif check.status == 'warning' %}bg-yellow-50{% endif %}">
                     <td class="px-4 py-3 whitespace-nowrap text-center">
                         {% if check.status == 'pass' %}
                         <i class="fas fa-check-circle text-2xl text-green-500" title="Passed"></i>
@@ -404,7 +413,8 @@
                     <td class="px-4 py-3 whitespace-nowrap">
                         <div class="flex items-center">
                             <div class="w-20 bg-gray-200 rounded-full h-2.5 mr-2">
-                                <div class="bg-hcl-primary h-2.5 rounded-full confidence-bar" data-confidence="{{ confidence_percent }}" style="width: 0%;"></div>
+                                <div class="bg-hcl-primary h-2.5 rounded-full confidence-bar"
+                                    data-confidence="{{ confidence_percent }}" style="width: 0%;"></div>
                             </div>
                             <span class="text-sm font-medium text-gray-700">{{ confidence_percent }}%</span>
                         </div>
@@ -423,12 +433,12 @@
 </div>
 {% endif %}
 
-{% if application.validation_results.payg_policy_checks %}
+{% if application.validation_results.standard_income_policy_checks %}
 <div class="card-hcl mb-6">
     <h2 class="text-xl font-semibold text-hcl-dark-blue mb-4">
-        <i class="fas fa-file-invoice-dollar text-hcl-primary mr-2"></i>PAYG Income Policy Checks
+        <i class="fas fa-file-invoice-dollar text-hcl-primary mr-2"></i>Standard Income Policy Checks
     </h2>
-    
+
     <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
@@ -441,18 +451,20 @@
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
                 {# First show all non-failed checks #}
-                {% for check in application.validation_results.payg_policy_checks.checks if check.status != 'fail' %}
+                {% for check in application.validation_results.standard_income_policy_checks.checks if check.status !=
+                'fail' %}
                 {% set has_details = '**Additional Details:**' in check.message %}
                 {% if has_details %}
-                    {% set parts = check.message.split('**Additional Details:**') %}
-                    {% set summary = parts[0].strip() %}
-                    {% set details = parts[1].strip() %}
+                {% set parts = check.message.split('**Additional Details:**') %}
+                {% set summary = parts[0].strip() %}
+                {% set details = parts[1].strip() %}
                 {% else %}
-                    {% set summary = check.message %}
-                    {% set details = '' %}
+                {% set summary = check.message %}
+                {% set details = '' %}
                 {% endif %}
-                
-                <tr class="hover:bg-gray-50 transition-colors {% if check.status == 'warning' %}bg-yellow-50{% endif %}">
+
+                <tr
+                    class="hover:bg-gray-50 transition-colors {% if check.status == 'warning' %}bg-yellow-50{% endif %}">
                     <td class="px-4 py-3 whitespace-nowrap text-center">
                         {% if check.status == 'pass' %}
                         <i class="fas fa-check-circle text-3xl text-green-500" title="Passed"></i>
@@ -470,9 +482,9 @@
                     </td>
                     <td class="px-4 py-3 text-center">
                         {% if has_details %}
-                        <button onclick="toggleDetails('payg-{{ loop.index }}')" 
-                                class="inline-flex items-center px-4 py-2 bg-hcl-primary hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors shadow-sm">
-                            <i class="fas fa-chevron-down mr-2" id="icon-payg-{{ loop.index }}"></i>
+                        <button onclick="toggleDetails('standard_income-{{ loop.index }}')"
+                            class="inline-flex items-center px-4 py-2 bg-hcl-primary hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors shadow-sm">
+                            <i class="fas fa-chevron-down mr-2" id="icon-standard_income-{{ loop.index }}"></i>
                             More Details
                         </button>
                         {% else %}
@@ -481,7 +493,7 @@
                     </td>
                 </tr>
                 {% if has_details %}
-                <tr id="payg-{{ loop.index }}" class="hidden bg-blue-50">
+                <tr id="standard_income-{{ loop.index }}" class="hidden bg-blue-50">
                     <td colspan="4" class="px-6 py-5">
                         <div class="bg-white rounded-lg p-5 border-l-4 border-hcl-primary shadow-sm">
                             <h4 class="text-base font-semibold text-gray-900 mb-3">
@@ -496,24 +508,26 @@
             </tbody>
         </table>
     </div>
-    
+
     {# Failed checks collapsed section #}
-    {% set failed_checks = application.validation_results.payg_policy_checks.checks | selectattr('status', 'equalto', 'fail') | list %}
+    {% set failed_checks = application.validation_results.standard_income_policy_checks.checks | selectattr('status',
+    'equalto', 'fail') | list %}
     {% if failed_checks|length > 0 %}
     <div class="mt-6 border-t pt-4">
-        <button type="button" onclick="toggleFailedSection('payg')" 
-                class="inline-flex items-center px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 text-sm font-semibold rounded-lg shadow-sm transition-colors">
+        <button type="button" onclick="toggleFailedSection('standard_income')"
+            class="inline-flex items-center px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 text-sm font-semibold rounded-lg shadow-sm transition-colors">
             <i class="fas fa-times-circle mr-2"></i>
-            <span id="failed-payg-toggle-label">Show Failed Checks ({{ failed_checks|length }})</span>
-            <i class="fas fa-chevron-down ml-2" id="icon-failed-payg"></i>
+            <span id="failed-standard_income-toggle-label">Show Failed Checks ({{ failed_checks|length }})</span>
+            <i class="fas fa-chevron-down ml-2" id="icon-failed-standard_income"></i>
         </button>
-        
-        <div id="failed-payg-container" class="mt-4 hidden">
+
+        <div id="failed-standard_income-container" class="mt-4 hidden">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-red-50">
                     <tr>
                         <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase w-20">Status</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase w-64">Policy Name</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase w-64">Policy Name
+                        </th>
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Summary</th>
                         <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase w-32">Details</th>
                     </tr>
@@ -522,14 +536,14 @@
                     {% for check in failed_checks %}
                     {% set has_details = '**Additional Details:**' in check.message %}
                     {% if has_details %}
-                        {% set parts = check.message.split('**Additional Details:**') %}
-                        {% set summary = parts[0].strip() %}
-                        {% set details = parts[1].strip() %}
+                    {% set parts = check.message.split('**Additional Details:**') %}
+                    {% set summary = parts[0].strip() %}
+                    {% set details = parts[1].strip() %}
                     {% else %}
-                        {% set summary = check.message %}
-                        {% set details = '' %}
+                    {% set summary = check.message %}
+                    {% set details = '' %}
                     {% endif %}
-                    
+
                     <tr class="hover:bg-red-50 transition-colors bg-red-50">
                         <td class="px-4 py-3 whitespace-nowrap text-center">
                             <i class="fas fa-times-circle text-3xl text-red-500" title="Failed"></i>
@@ -542,9 +556,9 @@
                         </td>
                         <td class="px-4 py-3 text-center">
                             {% if has_details %}
-                            <button onclick="toggleDetails('payg-fail-{{ loop.index }}')" 
-                                    class="inline-flex items-center px-4 py-2 bg-hcl-primary hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors shadow-sm">
-                                <i class="fas fa-chevron-down mr-2" id="icon-payg-fail-{{ loop.index }}"></i>
+                            <button onclick="toggleDetails('standard_income-fail-{{ loop.index }}')"
+                                class="inline-flex items-center px-4 py-2 bg-hcl-primary hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors shadow-sm">
+                                <i class="fas fa-chevron-down mr-2" id="icon-standard_income-fail-{{ loop.index }}"></i>
                                 More Details
                             </button>
                             {% else %}
@@ -553,13 +567,14 @@
                         </td>
                     </tr>
                     {% if has_details %}
-                    <tr id="payg-fail-{{ loop.index }}" class="hidden bg-blue-50">
+                    <tr id="standard_income-fail-{{ loop.index }}" class="hidden bg-blue-50">
                         <td colspan="4" class="px-6 py-5">
                             <div class="bg-white rounded-lg p-5 border-l-4 border-hcl-primary shadow-sm">
                                 <h4 class="text-base font-semibold text-gray-900 mb-3">
                                     <i class="fas fa-info-circle text-hcl-primary mr-2"></i>Detailed Information
                                 </h4>
-                                <div class="text-sm text-gray-700 whitespace-pre-line leading-relaxed">{{ details }}</div>
+                                <div class="text-sm text-gray-700 whitespace-pre-line leading-relaxed">{{ details }}
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -570,69 +585,72 @@
         </div>
     </div>
     {% endif %}
-    
+
     <div class="mt-4 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-400">
         <p class="text-sm text-gray-700">
             <i class="fas fa-robot text-hcl-primary mr-2"></i>
-            <strong>AI-Powered Extraction:</strong> These checks use Vertex AI (Gemini) to extract and summarize relevant income data from payslips using intelligent keyword matching and field analysis.
+            <strong>AI-Powered Extraction:</strong> These checks use Vertex AI (Gemini) to extract and summarize
+            relevant income data from payslips using intelligent keyword matching and field analysis.
         </p>
     </div>
 </div>
 
 <style>
-.hidden { display: none; }
+    .hidden {
+        display: none;
+    }
 </style>
 
 <script>
-function toggleDetails(id) {
-    const row = document.getElementById(id);
-    const icon = document.getElementById('icon-' + id);
-    
-    if (row.classList.contains('hidden')) {
-        row.classList.remove('hidden');
-        if (icon) {
+    function toggleDetails(id) {
+        const row = document.getElementById(id);
+        const icon = document.getElementById('icon-' + id);
+
+        if (row.classList.contains('hidden')) {
+            row.classList.remove('hidden');
+            if (icon) {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        } else {
+            row.classList.add('hidden');
+            if (icon) {
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        }
+    }
+
+    function toggleFailedSection(section) {
+        const container = document.getElementById(`failed-${section}-container`);
+        const icon = document.getElementById(`icon-failed-${section}`);
+        const label = document.getElementById(`failed-${section}-toggle-label`);
+
+        if (!container || !icon || !label) {
+            return;
+        }
+
+        if (container.classList.contains('hidden')) {
+            container.classList.remove('hidden');
             icon.classList.remove('fa-chevron-down');
             icon.classList.add('fa-chevron-up');
-        }
-    } else {
-        row.classList.add('hidden');
-        if (icon) {
+            label.textContent = label.textContent.replace('Show', 'Hide');
+        } else {
+            container.classList.add('hidden');
             icon.classList.remove('fa-chevron-up');
             icon.classList.add('fa-chevron-down');
+            label.textContent = label.textContent.replace('Hide', 'Show');
         }
     }
-}
 
-function toggleFailedSection(section) {
-    const container = document.getElementById(`failed-${section}-container`);
-    const icon = document.getElementById(`icon-failed-${section}`);
-    const label = document.getElementById(`failed-${section}-toggle-label`);
-    
-    if (!container || !icon || !label) {
-        return;
-    }
-    
-    if (container.classList.contains('hidden')) {
-        container.classList.remove('hidden');
-        icon.classList.remove('fa-chevron-down');
-        icon.classList.add('fa-chevron-up');
-        label.textContent = label.textContent.replace('Show', 'Hide');
-    } else {
-        container.classList.add('hidden');
-        icon.classList.remove('fa-chevron-up');
-        icon.classList.add('fa-chevron-down');
-        label.textContent = label.textContent.replace('Hide', 'Show');
-    }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.confidence-bar').forEach(bar => {
-        const value = bar.getAttribute('data-confidence');
-        if (value !== null) {
-            bar.style.width = `${value}%`;
-        }
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.confidence-bar').forEach(bar => {
+            const value = bar.getAttribute('data-confidence');
+            if (value !== null) {
+                bar.style.width = `${value}%`;
+            }
+        });
     });
-});
 </script>
 {% endif %}
 
@@ -641,7 +659,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <h2 class="text-xl font-semibold text-hcl-dark-blue mb-4">
         <i class="fas fa-file-alt text-hcl-primary mr-2"></i>Extracted Document Data
     </h2>
-    
+
     {% for doc in application.processed_documents %}
     <div class="mb-6 p-4 border border-gray-200 rounded-lg">
         <div class="flex items-center justify-between mb-3">
@@ -653,7 +671,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 {{ doc.document_type|replace('_', ' ')|title }}
             </span>
         </div>
-        
+
         <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
             {% for key, value in doc.extracted_data.items() %}
             {% if key not in ['raw_text', 'raw_fields', 'text', 'confidence', 'document_type'] and value %}
@@ -684,12 +702,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <div class="mt-8 flex justify-end space-x-4">
     <a href="{{ url_for('download_application_summary', application_id=application.application_id) }}"
-       class="inline-flex items-center px-5 py-3 bg-gray-600 hover:bg-gray-700 text-white text-sm font-semibold rounded-lg shadow-sm transition-colors">
+        class="inline-flex items-center px-5 py-3 bg-gray-600 hover:bg-gray-700 text-white text-sm font-semibold rounded-lg shadow-sm transition-colors">
         <i class="fas fa-code mr-2"></i>
         Download JSON
     </a>
     <a href="{{ url_for('download_application_pdf', application_id=application.application_id) }}"
-       class="inline-flex items-center px-5 py-3 bg-hcl-primary hover:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-sm transition-colors">
+        class="inline-flex items-center px-5 py-3 bg-hcl-primary hover:bg-blue-700 text-white text-sm font-semibold rounded-lg shadow-sm transition-colors">
         <i class="fas fa-file-pdf mr-2"></i>
         Download PDF Report
     </a>
@@ -699,35 +717,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
 {% block extra_js %}
 <script>
-async function submitApplication() {
-    const btn = document.getElementById('submitBtn');
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Submitting...';
-    
-    try {
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-        const response = await fetch('/broker/application/{{ application.application_id }}/submit', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken
+    async function submitApplication() {
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Submitting...';
+
+        try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+            const response = await fetch('/broker/application/{{ application.application_id }}/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                }
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                window.location.href = data.redirect;
+            } else {
+                alert('Error submitting application: ' + data.error);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Submit Application';
             }
-        });
-        
-        const data = await response.json();
-        
-        if (response.ok) {
-            window.location.href = data.redirect;
-        } else {
-            alert('Error submitting application: ' + data.error);
+        } catch (error) {
+            alert('Network error: ' + error.message);
             btn.disabled = false;
             btn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Submit Application';
         }
-    } catch (error) {
-        alert('Network error: ' + error.message);
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Submit Application';
     }
-}
 </script>
 {% endblock %}

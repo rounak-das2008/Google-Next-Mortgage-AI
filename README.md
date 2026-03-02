@@ -1,8 +1,8 @@
 # Mortgage Processing Application
 
-## AI-Powered PAYG Document Verification System
+## AI-Powered Standard Income Document Verification System
 
-A comprehensive mortgage processing web application featuring Google Cloud Document AI OCR, Gemini-powered document classification, and automated PAYG (Pay-As-You-Go) income verification based on Australian banking regulations.
+A comprehensive mortgage processing web application featuring Google Cloud Document AI OCR, Gemini-powered document classification, and automated Standard Income (Pay-As-You-Go) income verification based on Australian banking regulations.
 
 ---
 
@@ -25,7 +25,7 @@ A comprehensive mortgage processing web application featuring Google Cloud Docum
 ### Technical Capabilities
 - ✅ **Automated Document Classification** (Bank Statement vs Payslip)
 - ✅ **OCR Data Extraction** with GCP Document AI
-- ✅ **30+ PAYG Policy Validations** (Section 3.2 & 3.3)
+- ✅ **30+ Standard Income Policy Validations** (Section 3.2 & 3.3)
 - ✅ **Cross-Document Verification** (Name matching, amount reconciliation)
 - ✅ **Exception Handling** with escalation codes
 - ✅ **Confidence Scoring** for all extractions
@@ -119,7 +119,7 @@ For detailed step-by-step instructions including:
 
 ## 📊 Validation Engine
 
-### Document Requirements (PAYG)
+### Document Requirements (Standard Income)
 
 **Minimum Required:**
 - 2 consecutive recent payslips
@@ -131,15 +131,15 @@ For detailed step-by-step instructions including:
 2. **Payslip Validations** (7 checks per payslip)
 3. **Bank Statement Validations** (5 checks per statement)
 4. **Cross-Document Validations** (2 checks)
-5. **PAYG Policy Validations** (6 policy checks)
+5. **Standard Income Policy Validations** (6 policy checks)
 
 **Total: 30+ automated validation checks**
 
 ### Policy References
 
 Based on:
-- Section 3.2: PAYG Income Definitions & Eligibility
-- Section 3.3: PAYG Income Verification Requirements
+- Section 3.2: Standard Income Income Definitions & Eligibility
+- Section 3.3: Standard Income Income Verification Requirements
 
 All checks include:
 - ✅ Pass/Fail/Warning status
@@ -202,7 +202,7 @@ All checks include:
 ├── services/
 │   ├── firestore_service.py    # Database operations
 │   ├── document_processor.py   # OCR & extraction
-│   ├── validation_engine.py    # PAYG validation
+│   ├── validation_engine.py    # Standard Income validation
 │   └── gemini_service.py       # AI classification
 ├── templates/                   # HTML templates (8 files)
 ├── uploads/                     # Document storage
