@@ -11,6 +11,7 @@ google-cloud-documentai==3.6.0
 google-cloud-firestore==2.21.0
 google-genai==1.44.0
 google-cloud-aiplatform>=1.38.0
+google-generativeai
 
 # Document Processing
 PyPDF2==3.0.1

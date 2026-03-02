@@ -11,7 +11,7 @@ class GeminiService:
     def __init__(self):
         try:
             # Initialize Vertex AI - NO FALLBACK ALLOWED
-            project_id = os.environ.get('GCP_PROJECT_ID', 'genai-hackathon-25')
+            project_id = os.environ.get('GCP_PROJECT_ID', 'gebu-demo-sandbox')
             location = os.environ.get('GCP_LOCATION', 'us-central1')
             
             if not project_id:

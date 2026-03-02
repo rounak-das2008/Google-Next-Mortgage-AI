@@ -9,12 +9,12 @@ from datetime import datetime, timedelta
 import uuid
 
 # Set up GCP environment variables
-os.environ['GCP_PROJECT_ID'] = 'genai-hackathon-25'
+os.environ['GCP_PROJECT_ID'] = 'gebu-demo-sandbox'
 os.environ['GCP_LOCATION'] = 'us-central1'  # Vertex AI requires specific region
 os.environ['GCP_DOCUMENTAI_LOCATION'] = 'us'  # Document AI uses 'us'
 # Use available Document AI processors
-os.environ['GCP_BANK_PROCESSOR_ID'] = '1537b064c7a5d9ac'
-os.environ['GCP_FORM_PROCESSOR_ID'] = 'b5c6757f98067959'  # Updated to new Payslip-resedential processor
+os.environ['GCP_BANK_PROCESSOR_ID'] = '86d76014bc349d2b'
+os.environ['GCP_FORM_PROCESSOR_ID'] = 'ab0d9ad72649dedc'  # Updated to new Payslip-resedential processor
 os.environ['GCP_OCR_PROCESSOR_ID'] = 'f697ec4a24c16a21'
 
 from services.firestore_service import FirestoreService

@@ -13,15 +13,15 @@ def setup_gcp_environment():
     """Set up GCP environment variables"""
     
     # Set GCP project and locations
-    os.environ['GCP_PROJECT_ID'] = 'genai-hackathon-25'
+    os.environ['GCP_PROJECT_ID'] = 'gebu-demo-sandbox'
     os.environ['GCP_LOCATION'] = 'us-central1'  # Vertex AI location
     os.environ['GCP_DOCUMENTAI_LOCATION'] = 'us'  # Document AI location
     
     # Use available Document AI processors
     # Bank Statement Processor for bank statements
-    os.environ['GCP_BANK_PROCESSOR_ID'] = '1537b064c7a5d9ac'
+    os.environ['GCP_BANK_PROCESSOR_ID'] = '86d76014bc349d2b'
     # Updated to use the new Payslip-resedential processor
-    os.environ['GCP_FORM_PROCESSOR_ID'] = 'b5c6757f98067959'
+    os.environ['GCP_FORM_PROCESSOR_ID'] = 'ab0d9ad72649dedc'
     # OCR Processor for general text extraction
     os.environ['GCP_OCR_PROCESSOR_ID'] = 'f697ec4a24c16a21'
     

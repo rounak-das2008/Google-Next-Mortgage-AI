@@ -16,11 +16,19 @@ class FirestoreService:
     def __init__(self):
         self.in_memory_db = {}
         
+        # Use FIRESTORE_DATABASE env var or default to "mortgage"
+        firestore_db = os.getenv('FIRESTORE_DATABASE', 'mortgage')
+        firestore_project = os.getenv('FIRESTORE_PROJECT','gebu-demo-sandbox')  # optional override
+        
         if FIRESTORE_AVAILABLE:
             try:
-                self.db = firestore.Client()
+                # Initialize client against the specified Firestore database
+                if firestore_project:
+                    self.db = firestore.Client(project=firestore_project, database=firestore_db)
+                else:
+                    self.db = firestore.Client(database=firestore_db)
                 self.use_firestore = True
-                logger.info("Firestore initialized successfully")
+                logger.info(f"Firestore initialized successfully (database={firestore_db}, project={firestore_project or 'default'})")
             except Exception as e:
                 logger.warning(f"Could not initialize Firestore: {e}. Using in-memory storage.")
                 self.use_firestore = False
